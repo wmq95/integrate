@@ -15,6 +15,20 @@
 
     <dependencies>
 
+        <!--web-api-->
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>web-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--util-->
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>commom-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--springboot controller-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
