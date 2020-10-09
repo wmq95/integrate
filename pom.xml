@@ -29,7 +29,7 @@
         <druid.version>1.1.17</druid.version>
         <hutool-all.version>4.5.16</hutool-all.version>
         <guava.version>29.0-jre</guava.version>
-
+        <dozer.version>5.5.1</dozer.version>
     </properties>
 
     <dependencyManagement>
@@ -102,6 +102,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!--dozer -->
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
             </dependency>
 
         </dependencies>

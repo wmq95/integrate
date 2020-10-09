@@ -1,6 +1,7 @@
 package top.fan2wan.test.param;
 
 import com.google.common.base.MoreObjects;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotBlank;
  * @Date: 2020/9/30 13:58
  * @Description: param for user to save
  */
+@Data
 public class SaveUserParam {
 
     @NotBlank(message = "用户名不可为空")
@@ -27,29 +29,5 @@ public class SaveUserParam {
                 .add("name", name)
                 .add("password", password)
                 .toString();
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

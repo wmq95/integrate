@@ -26,15 +26,6 @@ public abstract class AbstractExceptionHandle {
      */
     private static final int HTTP_CODE_500 = 500;
 
-    /**
-     * 方法参数异常
-     */
-    private static final int HTTP_METHOD_ARGUMENT_NOT_VALID = 5001;
-
-    /**
-     * 成功状态
-     */
-    private static final int HTTP_CODE_200 = 200;
 
     /**
      * The constant DEFAULT_MESSAGE.
@@ -62,6 +53,7 @@ public abstract class AbstractExceptionHandle {
             resultMsg.setMessage(baseException.getMessage());
             log.error(baseException.getMessage(), ex);
         } else if (ex instanceof MethodArgumentNotValidException) {
+            // @Valid
             resultMsg.setCode(HTTP_CODE_500);
             int index = ex.getMessage().lastIndexOf(DEFAULT_MESSAGE);
             if (index > 0) {
@@ -77,6 +69,10 @@ public abstract class AbstractExceptionHandle {
                 resultMsg.setMessage(StrUtil.isNotEmpty(msgBuilder.toString()) ? msgBuilder.toString() : "参数异常");
             }
             log.error(ex.getMessage(), ex);
+        } else if (ex instanceof IllegalArgumentException) {
+            //preconditions
+            resultMsg.setCode(HTTP_CODE_500);
+            resultMsg.setMessage(ex.getMessage());
         } else {
             resultMsg.setCode(HTTP_CODE_500);
             resultMsg.setMessage(MsgCode.FAILED.getMessage());
