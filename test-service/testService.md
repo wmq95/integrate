@@ -45,6 +45,6 @@ https://www.cnblogs.com/jpfss/p/11506816.html
             对于这种场景，可以直接就是用一个表的DTO（单表新增/修改），这样节省了很多的SaveXXXParam和UpdateXXXParam
             
 7）服务采用面向接口编程，，之前都采用param/dto等方式做接口参数，
-综合第二点 ，采用接口作为业务参数，不仅仅是service,controller也可以采用使用接口参数
+综合第二点 ，采用接口作为业务参数
         
     

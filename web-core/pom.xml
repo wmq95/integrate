@@ -25,7 +25,7 @@
         <!--util-->
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>commom-util</artifactId>
+            <artifactId>common-util</artifactId>
             <version>${project.version}</version>
         </dependency>
 

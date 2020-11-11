@@ -1,4 +1,4 @@
-package top.fan2wan.commom.util;
+package top.fan2wan.common.util;
 
 import java.util.Objects;
 

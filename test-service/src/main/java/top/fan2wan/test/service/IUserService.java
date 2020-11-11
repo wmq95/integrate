@@ -1,7 +1,8 @@
 package top.fan2wan.test.service;
 
-import top.fan2wan.test.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.fan2wan.test.dto.IUser;
+import top.fan2wan.test.entity.User;
 
 /**
  * <p>
@@ -13,4 +14,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    /**
+     * save user
+     *
+     * @param user user
+     * @return boolean
+     */
+    boolean saveUser(IUser user);
+
+    boolean saveUser_transaction(IUser iUser) throws Exception;
 }

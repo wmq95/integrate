@@ -1,7 +1,6 @@
 package top.fan2wan.api.dto;
 
 import top.fan2wan.api.exception.BusinessException;
-import top.fan2wan.api.support.IMsgCode;
 
 import java.time.Instant;
 
@@ -17,9 +16,19 @@ public class Result<T> {
     public static int SUCCESS_CODE = 200;
 
     /**
+     * 失败
+     */
+    public static int FAILURE_CODE = 500;
+
+    /**
      * 成功信息
      */
     public static String SUCCESS_MSG = "success";
+
+    /**
+     * 失败信息
+     */
+    public static String FAILURE_MSG = "failed";
 
     /**
      * 结果code
@@ -134,68 +143,34 @@ public class Result<T> {
         this.timestamp = timestamp;
     }
 
-    /**
-     * Instantiates a new Rst msg.
-     *
-     * @param msgCode the msg code
-     * @param result  the result
-     */
-    public Result(IMsgCode msgCode, T result) {
-        this.code = msgCode.getCode();
-        this.message = msgCode.getMessage();
-        this.result = result;
-        this.timestamp = System.currentTimeMillis();
-    }
-
-    /**
-     * Instantiates a new Result.
-     *
-     * @param result the result
-     */
-    public Result(T result) {
-        this.code = SUCCESS_CODE;
-        this.message = SUCCESS_MSG;
-        this.result = result;
-        this.timestamp = System.currentTimeMillis();
-    }
-
-    /**
-     * Instantiates a new Rst msg.
-     *
-     * @param msgCode the msg code
-     */
-    public Result(IMsgCode msgCode) {
-        this.code = msgCode.getCode();
-        this.message = msgCode.getMessage();
-        this.timestamp = System.currentTimeMillis();
-    }
-
-    /**
-     * Instantiates a new Rst msg.
-     */
     public Result() {
+
     }
 
     /**
-     * Ok result.
+     * success
      *
-     * @return the result
+     * @param data data
+     * @return Result
      */
-    public static Result ok() {
-        return ok(null);
-    }
-
-    /**
-     * Success result.
-     *
-     * @param data the data
-     * @return the result
-     */
-    public static Result ok(Object data) {
+    public Result success(Object data) {
         Result result = new Result();
-        result.setCode(SUCCESS_CODE);
         result.setMessage(SUCCESS_MSG);
+        result.setCode(SUCCESS_CODE);
         result.setResult(data);
+        result.setTimestamp(Instant.now().toEpochMilli());
+        return result;
+    }
+
+    /**
+     * error
+     *
+     * @return success
+     */
+    public Result error() {
+        Result result = new Result();
+        result.setMessage(FAILURE_MSG);
+        result.setCode(FAILURE_CODE);
         result.setTimestamp(Instant.now().toEpochMilli());
         return result;
     }

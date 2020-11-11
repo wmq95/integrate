@@ -3,7 +3,8 @@ package top.fan2wan.test.controller;
 import org.dozer.DozerBeanMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.fan2wan.commom.util.IdGenerator;
+import top.fan2wan.common.util.IdGenerator;
+import top.fan2wan.test.dto.IUser;
 import top.fan2wan.test.dto.UserDTO;
 import top.fan2wan.test.entity.User;
 import top.fan2wan.test.feign.TestFeignApi;
@@ -34,7 +35,7 @@ public class TestController implements TestFeignApi {
     }
 
     @RequestMapping("testService/index/dozer")
-    public UserDTO dozerTest() {
+    public IUser dozerTest() {
 
         User user = new User();
         user.setId(IdGenerator.getId());

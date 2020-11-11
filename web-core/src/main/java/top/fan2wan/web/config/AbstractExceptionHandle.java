@@ -13,6 +13,7 @@ import top.fan2wan.api.exception.MsgCode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Instant;
 
 /**
  * @Author: fanT
@@ -45,8 +46,9 @@ public abstract class AbstractExceptionHandle {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+
         Result resultMsg = new Result();
-        resultMsg.setTimestamp(System.currentTimeMillis());
+        resultMsg.setTimestamp(Instant.now().toEpochMilli());
         if (ex instanceof BusinessException) {
             BusinessException baseException = (BusinessException) ex;
             resultMsg.setCode(baseException.getCode());

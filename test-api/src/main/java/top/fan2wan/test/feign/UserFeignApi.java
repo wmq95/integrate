@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import top.fan2wan.test.dto.IUser;
 import top.fan2wan.test.param.SaveUserParam;
 
 import javax.validation.Valid;
