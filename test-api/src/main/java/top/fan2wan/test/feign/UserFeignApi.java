@@ -1,5 +1,7 @@
 package top.fan2wan.test.feign;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import javax.validation.Valid;
  * @Description: feignApi for user
  */
 @FeignClient("test")
+@Api(tags = "用户feign")
 public interface UserFeignApi {
 
     /**
@@ -24,5 +27,6 @@ public interface UserFeignApi {
      * @return Boolean
      */
     @RequestMapping(value = "/testService/user/saveUser", method = RequestMethod.POST, consumes = {"application/json"})
+    @ApiOperation(value = "新增用户",response = Boolean.class, notes = "新增用户")
     Boolean saveUser(@RequestBody @Valid SaveUserParam param);
 }

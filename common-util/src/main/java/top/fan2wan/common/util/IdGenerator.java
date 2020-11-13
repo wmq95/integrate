@@ -42,7 +42,7 @@ public class IdGenerator {
     }
 
     /**
-     * generatorId
+     * sync generatorId
      *
      * @return Long 雪花ID
      */

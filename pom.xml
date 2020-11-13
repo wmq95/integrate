@@ -13,7 +13,7 @@
         <module>web-api</module>
         <module>test-api</module>
         <module>test-service</module>
-        <module>commom-util</module>
+        <module>common-util</module>
     </modules>
 
     <properties>
@@ -30,6 +30,7 @@
         <hutool-all.version>4.5.16</hutool-all.version>
         <guava.version>29.0-jre</guava.version>
         <dozer.version>5.5.1</dozer.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
     </properties>
 
     <dependencyManagement>
@@ -109,6 +110,18 @@
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
+            </dependency>
+
+            <!--swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger2.version}</version>
             </dependency>
 
         </dependencies>

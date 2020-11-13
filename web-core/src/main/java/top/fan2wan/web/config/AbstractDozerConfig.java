@@ -12,7 +12,6 @@ import java.util.List;
  * @Date: 2020/10/9 15:10
  * @Description: abstract config for dozer
  */
-@Configuration
 public abstract class AbstractDozerConfig {
 
     /**
