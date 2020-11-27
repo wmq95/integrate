@@ -55,6 +55,12 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 1）集成swagger、缓存、队列
 
+缓存采用redis， 使用lettuce客户端。
+
+在集成中，key value 采用json格式序列化实体类方式，正好配合dozer 去映射实体类。
+
+配到的一个坑点：idea 居然有缓存 之前没遇见过这个bug 重启服务居然还是以前的代码 没事最新的代码，需要自己点击packe 然后运行方法才行。。。。（郁闷）
+
 2）集成docker，maven-docker 插件、docker-compose
 
 3）多配置文件，多环境、maven 多profile

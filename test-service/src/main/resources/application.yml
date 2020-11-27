@@ -17,3 +17,13 @@ spring:
     testOnReturn: false
     filters: stat,wall,log4j
     logSlowSql: true
+  redis:
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        min-idle: 0
+        max-idle: 5
+    host: 192.168.99.100
+    port: 6379
+
