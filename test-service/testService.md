@@ -59,7 +59,7 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 在集成中，key value 采用json格式序列化实体类方式，正好配合dozer 去映射实体类。
 
-配到的一个坑点：idea 居然有缓存 之前没遇见过这个bug 重启服务居然还是以前的代码 没事最新的代码，需要自己点击packe 然后运行方法才行。。。。（郁闷）
+配到的一个坑点：idea 居然有缓存 之前没遇见过这个bug 重启服务居然还是以前的代码 不是最新的代码，需要自己点击packe 然后运行方法才行。。。。（郁闷）------真相了：在run configuration中 before launch 里设置build
 
 2）集成docker，maven-docker 插件、docker-compose
 
@@ -82,4 +82,7 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 11）应用层 nginx lua语言？
 
 12）分布分表 or myCat？
-    
+
+## 偶然
+
+​	在编写controller中方法返回接口，结果也能返回，而且经过测试 会根据不同实现去返回不同的结果，应该是在返回写入body的时候根据了返回值具体的类型 ，然后通过反射获取了fileds和对应的get方法，就是说如果filed没有对应的get方法 结果不会返回。（亲测结果）

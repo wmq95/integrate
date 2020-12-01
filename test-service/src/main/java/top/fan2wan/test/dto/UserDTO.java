@@ -2,6 +2,7 @@ package top.fan2wan.test.dto;
 
 import com.google.common.base.MoreObjects;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import top.fan2wan.test.entity.User;
 
 /**
@@ -10,6 +11,7 @@ import top.fan2wan.test.entity.User;
  * @Description: dto for user
  */
 @Data
+@Accessors(chain = true)
 public class UserDTO implements IUser {
 
     private Long id;
@@ -35,6 +37,15 @@ public class UserDTO implements IUser {
     public static User transform(IUser user) {
 
         return new User().setId(user.getId())
+                .setPassword(user.getPassword())
+                .setName(user.getName())
+                .setUserName(user.getUserName());
+    }
+
+
+    public static IUser transform(User user) {
+
+        return new UserDTO().setId(user.getId())
                 .setPassword(user.getPassword())
                 .setName(user.getName())
                 .setUserName(user.getUserName());

@@ -153,7 +153,7 @@ public class Result<T> {
      * @param data data
      * @return Result
      */
-    public Result success(Object data) {
+    public static Result success(Object data) {
         Result result = new Result();
         result.setMessage(SUCCESS_MSG);
         result.setCode(SUCCESS_CODE);
@@ -167,7 +167,7 @@ public class Result<T> {
      *
      * @return success
      */
-    public Result error() {
+    public static Result error() {
         Result result = new Result();
         result.setMessage(FAILURE_MSG);
         result.setCode(FAILURE_CODE);

@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import top.fan2wan.api.exception.BusinessException;
-import top.fan2wan.api.exception.MsgCode;
 import top.fan2wan.common.util.IdGenerator;
 import top.fan2wan.test.dto.IUser;
 import top.fan2wan.test.dto.UserDTO;
@@ -54,6 +53,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         int i = 1/0;*/
         return saveUser_public_throwException(iUser);
+    }
+
+    /**
+     * 这个注解生效 只有在spring 中配置了keyGenerator
+     *
+     * @param id
+     * @return IUser
+     */
+    @Override
+    @Cacheable(value = "USER")
+    public IUser getUserWithCache(Long id) {
+        return UserDTO.transform(getById(id));
+    }
+
+    /**指定了key  适用于没有配置keyGenerator 不能加在接口方法上
+     * @param id
+     * @return IUser
+     */
+    @Cacheable(value = "USER", key = "#id")
+    public IUser getUser(Long id) {
+        logger.info("UserServiceImpl -- getUser, id was :{}", id);
+
+        return UserDTO.transform(getById(id));
     }
 
     private boolean saveUser_public_throwException(IUser iUser) throws Exception {

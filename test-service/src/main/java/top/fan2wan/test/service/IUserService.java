@@ -1,6 +1,7 @@
 package top.fan2wan.test.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.fan2wan.api.dto.Result;
 import top.fan2wan.test.dto.IUser;
 import top.fan2wan.test.entity.User;
 
@@ -23,4 +24,6 @@ public interface IUserService extends IService<User> {
     boolean saveUser(IUser user);
 
     boolean saveUser_transaction(IUser iUser) throws Exception;
+
+    IUser getUserWithCache(Long id);
 }

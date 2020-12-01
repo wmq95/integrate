@@ -22,7 +22,7 @@ public abstract class AbstractSwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
 //                .pathMapping("/")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("top.fan2wan.*.controller"))
+                .apis(RequestHandlerSelectors.basePackage("top.fan2wan"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(new ApiInfoBuilder()
                         .title("integration for Swagger")
