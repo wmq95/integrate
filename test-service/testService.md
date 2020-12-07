@@ -57,9 +57,11 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 缓存采用redis， 使用lettuce客户端。
 
-在集成中，key value 采用json格式序列化实体类方式，正好配合dozer 去映射实体类。
+​	在集成中，key value 采用json格式序列化实体类方式，正好配合dozer 去映射实体类。
 
-配到的一个坑点：idea 居然有缓存 之前没遇见过这个bug 重启服务居然还是以前的代码 不是最新的代码，需要自己点击packe 然后运行方法才行。。。。（郁闷）------真相了：在run configuration中 before launch 里设置build
+​	配到的一个坑点：idea 居然有缓存 之前没遇见过这个bug 重启服务居然还是以前的代码 不是最新的代码，需要自己点击packe 然后运行方法才行。。。。（郁闷）
+
+​	------真相了：在run configuration中 before launch 里设置build
 
 2）集成docker，maven-docker 插件、docker-compose
 
@@ -85,4 +87,12 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 ## 偶然
 
-​	在编写controller中方法返回接口，结果也能返回，而且经过测试 会根据不同实现去返回不同的结果，应该是在返回写入body的时候根据了返回值具体的类型 ，然后通过反射获取了fileds和对应的get方法，就是说如果filed没有对应的get方法 结果不会返回。（亲测结果）
+​	1	在编写controller中方法返回接口，结果也能返回，而且经过测试 会根据不同实现去返回不同的结果，应该是在返回写入body的时候根据了返回值具体的类型 ，然后通过反射获取了fileds和对应的get方法，就是说如果filed没有对应的get方法 结果不会返回。（亲测结果）
+
+---------原因在于@ResponseBody注解和HttpMessageConverter上---------------------------------
+
+​	SpringMVC  默认给我们添加了几个MessageConverter（在WebMvcConfigurationSupport类中），当我们加上了@ResponseBody注解 并且没有配置MessageConvert的时候，
+
+会进入到MappingJackson2HttpMessageConverter这个MessageConverter进行返回值的转换，
+
+里面最后就是使用了jackson ObjectMapper 的write方法 把具体的对象写出去。。。

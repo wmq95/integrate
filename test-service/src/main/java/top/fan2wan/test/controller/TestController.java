@@ -1,14 +1,16 @@
 package top.fan2wan.test.controller;
 
 import org.dozer.DozerBeanMapper;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.common.util.IdGenerator;
+import top.fan2wan.test.config.MqConfig;
 import top.fan2wan.test.dto.IUser;
 import top.fan2wan.test.dto.UserDTO;
 import top.fan2wan.test.entity.User;
 import top.fan2wan.test.feign.TestFeignApi;
+import top.fan2wan.test.mq.Sender;
 import top.fan2wan.test.util.RedisUtil;
 
 /**
@@ -19,12 +21,17 @@ import top.fan2wan.test.util.RedisUtil;
 @RestController
 public class TestController implements TestFeignApi {
 
-    final DozerBeanMapper mapper;
-    final RedisUtil redisUtil;
+    private final DozerBeanMapper mapper;
+    private final RedisUtil redisUtil;
+    private final RabbitTemplate rabbitTemplate;
+    private final Sender sender;
 
-    public TestController(DozerBeanMapper mapper, RedisUtil redisUtil) {
+    public TestController(DozerBeanMapper mapper, RedisUtil redisUtil,
+                          RabbitTemplate rabbitTemplate, Sender sender) {
         this.mapper = mapper;
         this.redisUtil = redisUtil;
+        this.rabbitTemplate = rabbitTemplate;
+        this.sender = sender;
     }
 
     /**
@@ -67,6 +74,25 @@ public class TestController implements TestFeignApi {
 
     @RequestMapping("testService/index/redis/getUserByDozer")
     public User getUserByDozer() {
-        return mapper.map(redisUtil.get("fant2"),User.class);
+        return mapper.map(redisUtil.get("fant2"), User.class);
+    }
+
+    @RequestMapping("testService/index/mq/send")
+    public Boolean send() {
+
+        rabbitTemplate.convertAndSend(MqConfig.QUEUE_NAME, "fant");
+        return true;
+    }
+
+    @RequestMapping("testService/index/mq/fanout")
+    public Boolean fanoutSend() {
+
+        return sender.sendFanoutMsg();
+    }
+
+    @RequestMapping("testService/index/mq/topic")
+    public Boolean topicSend() {
+
+        return sender.sendTopicMsg();
     }
 }
