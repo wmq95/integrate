@@ -33,4 +33,10 @@ spring:
     password: guest
     port: 5672
     virtual-host: /
+  main:
+    allow-bean-definition-overriding: true
+#  elasticsearch:
+#    rest:
+#      uris: [192.168.99.100:9200]
+
 

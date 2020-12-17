@@ -30,10 +30,16 @@ public interface UserFeignApi {
      * @return Boolean
      */
     @RequestMapping(value = "/testService/user/saveUser", method = RequestMethod.POST, consumes = {"application/json"})
-    @ApiOperation(value = "新增用户",response = Boolean.class, notes = "新增用户")
+    @ApiOperation(value = "新增用户", response = Boolean.class, notes = "新增用户")
     Boolean saveUser(@RequestBody @Valid SaveUserParam param);
 
-    @ApiOperation(value = "查询用户",response = IUser.class, notes = "新增用户")
+    /**
+     * 查询用户
+     *
+     * @param id 用户id
+     * @return UserDTO
+     */
+    @ApiOperation(value = "查询用户", response = IUser.class, notes = "新增用户")
     @RequestMapping(value = "/testService/user/getUserById", method = RequestMethod.GET)
     @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "long")
     Result<IUser> getUserById(@RequestParam(value = "id") Long id);

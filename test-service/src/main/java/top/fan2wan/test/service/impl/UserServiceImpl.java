@@ -5,12 +5,14 @@ import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import top.fan2wan.common.util.IdGenerator;
 import top.fan2wan.test.dto.IUser;
 import top.fan2wan.test.dto.UserDTO;
+import top.fan2wan.test.entity.EsUser;
 import top.fan2wan.test.entity.User;
 import top.fan2wan.test.mapper.UserMapper;
 import top.fan2wan.test.service.IUserService;
@@ -28,10 +30,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    final DozerBeanMapper mapper;
+    private final DozerBeanMapper mapper;
+    private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    public UserServiceImpl(DozerBeanMapper mapper) {
+    public UserServiceImpl(DozerBeanMapper mapper, ElasticsearchRestTemplate elasticsearchRestTemplate) {
         this.mapper = mapper;
+        this.elasticsearchRestTemplate = elasticsearchRestTemplate;
     }
 
     @Override
@@ -41,6 +45,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         logger.info("dozer map user, user was :{}", mapUser);
         User entity = UserDTO.transform(user);
         entity.setId(IdGenerator.getId());
+        elasticsearchRestTemplate.save(mapper.map(entity, EsUser.class));
+        logger.info("UserServiceImpl -- save es success");
         return save(entity);
     }
 
@@ -62,12 +68,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return IUser
      */
     @Override
-    @Cacheable(value = "USER")
+//    @Cacheable(value = "USER")
     public IUser getUserWithCache(Long id) {
-        return UserDTO.transform(getById(id));
+        EsUser esUser = elasticsearchRestTemplate.get(id.toString(), EsUser.class);
+        logger.info("query form es ,result was :{}", esUser);
+//        return UserDTO.transform(getById(id));
+        return mapper.map(esUser, UserDTO.class);
     }
 
-    /**指定了key  适用于没有配置keyGenerator 不能加在接口方法上
+    /**
+     * 指定了key  适用于没有配置keyGenerator 不能加在接口方法上
+     *
      * @param id
      * @return IUser
      */

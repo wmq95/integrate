@@ -53,7 +53,7 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 ## 11.13 规划
 
-1）集成swagger、缓存、队列
+##### 1）swagger、缓存、队列
 
 缓存采用redis， 使用lettuce客户端。
 
@@ -63,7 +63,19 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 ​	------真相了：在run configuration中 before launch 里设置build
 
-2）集成docker，maven-docker 插件、docker-compose
+队列中间件采用了rabbitmq：使用rabbitTemplate ，实现direct， fanout，topic 。
+
+​	mq 还有TTL和死信队列：
+
+​		TTL(time to live) 简单来说就是给队列消息设置一个消费的一个时间，超过设置时间不能进行消费。
+
+​		死信队列：DLX也是一个正常的 Exchange，和一般的 Exchange 没有区别，它能在任何的队列上被指定，实际上就是设置某个队列的属性。当这个队列中有死信时，RabbitMQ 就会自动的将这个消息重新发布到设置的 Exchange 上去，进而被路由到另一个队列。可以监听这个队列中消息做相应的处理。
+
+
+
+其实从上面2个集成可以看出来 和XXX集成 springboot 都提供了相对简单配置的spring-boot-start-XXX.jar，XXXTemplate 使得使用起来更加方便，配置也简单 体现出了springboot的理念 。
+
+##### 2）docker，maven-docker 插件、docker-compose
 
 3）多配置文件，多环境、maven 多profile
 

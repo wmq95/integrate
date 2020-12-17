@@ -57,10 +57,10 @@ public class UserController implements UserFeignApi {
      * 但是实际操作之后 会根据返回值的具体实现 返回不同的结果
      *
      * 这样貌似有很多操作空间。。。但是 没遇过
-     */
+
     @ApiOperation(value = "查询用户",response = IUser.class, notes = "查询用户")
     @RequestMapping(value = "/testService/user/getUser", method = RequestMethod.GET)
     public IUser getUser() {
         return UserDTO.transform(userService.getById(530830763772616704L));
-    }
+    }*/
 }
