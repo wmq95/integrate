@@ -75,6 +75,16 @@ ortkey=AWOkbHNYJknFS53LT6S3eSY%3D&pass_ticket=aDfMJNh35pjQVzjJ%2F3xfeVBcRJekyz%2
 
 其实从上面2个集成可以看出来 和XXX集成 springboot 都提供了相对简单配置的spring-boot-start-XXX.jar，XXXTemplate 使得使用起来更加方便，配置也简单 体现出了springboot的理念 。
 
+elasticsearch 集成：
+
+​	es：文档全文索引，采用倒排序索引，在es 中对每个文字会进行分词(ik分词器-中文分词)，每一个就是一个Term，es维护了Term dictionary 条目字典，还有一个posting List -简单来说找个列表存储了term对应文档的一些信息，在检索的时候现根据B-tree 查找term 然后获取postingList 对应的文档位置。
+
+​	集成过程中的一些点： 本来想直接使用spring-boot-starter-data-elasticsearch,但是 出现了写小问题，版本太高，原先的demo 一些属性都已经废弃，最后在官网使用了spring-data-elasticsearch 4.0.X版本 使用推荐的restTemplate进行es操作。
+
+​	有时候集成不能只关注在一些博客上面，等没有头绪的时候可以去官网找找。。
+
+​	
+
 ##### 2）docker，maven-docker 插件、docker-compose
 
 3）多配置文件，多环境、maven 多profile
