@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+  testService:
+    image: 192.168.99.100:5000/test-service:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - rabbitmq
+    links:
+      - redis:myRedis
+      - rabbitmq:myMq
+      - es:myEs
+# 使用external_link 可以连接到用其他宿主机docker 启动的容器 es 为运行容器的名字 myEs 为别名
+# 这样 redis 和rabbitmq 也可以原先启动 然后同样的方式去链接
+#    external_links:
+#      - es:myEs
+    networks:
+      - test
+#      可以为容器添加host解析
+#简单来说 可以直接挂载host文件
+    extra_hosts:
+      - "my:xx.xx.xx"
+    container_name: test
+
+  redis:
+    image: redis:latest
+#    docker 容器运行别名 相当于run 的时候 --name 指令
+    container_name: myRedis
+#    restart: always
+    ports:
+      - "6379:6379"
+#      指定容器使用的network 名为test
+    networks:
+      - test
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: myMq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - test
+
+  es:
+    image: elasticsearch:6.5.4
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    container_name: myEs
+#    刚开始 es 使用docker-compose 方式启动失败
+#    原因是内存不够，加上环境配置默认是单节点
+    environment:
+      - "discovery.type=single-node"
+#    设置还可以设置内存大小
+#      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    networks:
+      - test
+
+# 设置test的网络
+#这个方式会在启动的时候 创建一个名为test的网络 driver 是bridge模式
+
+networks:
+   test:
+     driver: bridge
+# 还可以手动用docker 命令创建网络 然后指定外部创建的网络
+#  networks:
+#   bridge:
+#      external: true
+
+

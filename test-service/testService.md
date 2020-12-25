@@ -85,7 +85,25 @@ elasticsearch 集成：
 
 ​	
 
-##### 2）docker，maven-docker 插件、docker-compose
+##### 2）docker，maven和docker 插件、docker-compose
+
+​	项目添加 docker-maven-plugin 插件：这个插件可以绑定docker 命令到各个maven命令阶段
+
+项目中没有push 镜像到私有的registry 可以自己搭建docekr registry 然后自己push到私有docker 仓库 甚至可以推送到dockerHub上。
+
+​	docker-compose:docker 容器编排管理：核心文件是yml。
+
+使用docker-compose启动的容器如果不设置network ，默认会创建一个default的network。
+
+```
+depends_on：依赖服务，启动当前service 会先启动所依赖的服务
+links： 链接访问服务别名，可以给其他服务使用别名，然后在当前容器中，使用别名访问其他容器
+external_links： 访问其他容器的服务别名，但是有一个限制，需要共用一个network 才可以使用别名去访问
+networks： 设置docker-compose 使用的网络，相当于用docker命令创建了一个网络，然后所有容器都在这个网络里面，当前也可以设置多个网络，然后做到隔离。
+extra_hosts： 为容器添加host解析--当然 可以使用更方便的host文件挂载
+```
+
+
 
 3）多配置文件，多环境、maven 多profile
 

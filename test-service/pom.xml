@@ -160,7 +160,9 @@
                             <goal>tag</goal>
                         </goals>
                         <!-- 这种方式 会产生 2个images 一个latest 一个 project.version
-                        并且 多次执行也不会出现之前的<none>情况-->
+                        也会出现none 空悬镜像。
+                        docker rmi $(docker images -f "dangling=true" -q)删除空悬镜像
+                        -->
                         <configuration>
                             <image>${docker.registry}/${project.name}:latest</image>
                             <newName>${docker.registry}/${project.name}:${project.version}</newName>
