@@ -98,12 +98,12 @@ elasticsearch 集成：
 ```
 depends_on：依赖服务，启动当前service 会先启动所依赖的服务
 links： 链接访问服务别名，可以给其他服务使用别名，然后在当前容器中，使用别名访问其他容器
-external_links： 访问其他容器的服务别名，但是有一个限制，需要共用一个network 才可以使用别名去访问
+external_links： 与外部创建（可以是之前调用compose通过其他yml创建的，也可以是手工创建的容器）的容器link起来，使之可以通信
 networks： 设置docker-compose 使用的网络，相当于用docker命令创建了一个网络，然后所有容器都在这个网络里面，当前也可以设置多个网络，然后做到隔离。
 extra_hosts： 为容器添加host解析--当然 可以使用更方便的host文件挂载
 ```
 
-
+​	docker-compose up -d:后台启动compose 编排的各个容器，当多次执行，每次回去判断当前执行的容器是不是最新的操作，如果就不会重启对应服务，如果不是就会拉取最新镜像启动服务。
 
 3）多配置文件，多环境、maven 多profile
 

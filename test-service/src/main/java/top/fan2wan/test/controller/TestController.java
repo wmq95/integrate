@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 import top.fan2wan.common.util.IdGenerator;
 import top.fan2wan.test.config.MqConfig;
 import top.fan2wan.test.dto.IUser;
@@ -22,6 +23,7 @@ import top.fan2wan.test.util.RedisUtil;
  * @Description: teset controller
  */
 @RestController
+@ApiIgnore
 public class TestController implements TestFeignApi {
 
     private final DozerBeanMapper mapper;
@@ -123,5 +125,10 @@ public class TestController implements TestFeignApi {
                 .setUserName(id.toString());
         EsUser save = elasticsearchRestTemplate.save(mapper.map(user, EsUser.class));
         return save.getId();
+    }
+
+    @RequestMapping("testService/index")
+    public Boolean index() {
+        return true;
     }
 }
