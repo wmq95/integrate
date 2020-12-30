@@ -1,6 +1,8 @@
 package top.fan2wan.test.controller;
 
 import org.dozer.DozerBeanMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +33,7 @@ public class TestController implements TestFeignApi {
     private final RabbitTemplate rabbitTemplate;
     private final Sender sender;
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
-
+    private static Logger logger = LoggerFactory.getLogger(TestController.class);
     public TestController(DozerBeanMapper mapper, RedisUtil redisUtil,
                           RabbitTemplate rabbitTemplate, Sender sender,
                           ElasticsearchRestTemplate elasticsearchRestTemplate) {
@@ -60,7 +62,7 @@ public class TestController implements TestFeignApi {
         user.setId(IdGenerator.getId());
         user.setName("fant2");
         user.setPassword("123456");
-
+        logger.info("dozer....success");
         return mapper.map(user, UserDTO.class);
     }
 

@@ -1,4 +1,4 @@
-package top.fan2wan.test;
+package top.fan2wan.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,14 +6,13 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @Author: fanT
- * @Date: 2020/9/29 14:13
- * @Description: testApplication
+ * @Date: 2020/12/30 13:24
+ * @Description: gatewayApplication
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class TestApplication {
-
+public class GatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TestApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 }

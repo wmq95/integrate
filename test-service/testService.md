@@ -10,7 +10,7 @@
 
 3）mysql id自增还是使用UUID?
 https://www.cnblogs.com/jpfss/p/11506816.html
-从实际开发场景来说，需要提前知道记录id 所以采用UUID形式，使用雪花ID（计算变成大型分布式也能使用）
+从实际开发场景来说，需要提前知道记录id 所以采用UUID形式，使用雪花ID（就算大型分布式也能使用）
 
 4）orm使用mybatisPlus; 使用codeGenerator生成model 还是很方便的
 
@@ -105,7 +105,7 @@ extra_hosts： 为容器添加host解析--当然 可以使用更方便的host文
 
 ​	docker-compose up -d:后台启动compose 编排的各个容器，当多次执行，每次回去判断当前执行的容器是不是最新的操作，如果就不会重启对应服务，如果不是就会拉取最新镜像启动服务。
 
-3）多配置文件，多环境、maven 多profile
+3）多配置文件，maven 多profile
 
 4）webFlux reactor 编程
 
@@ -135,4 +135,4 @@ extra_hosts： 为容器添加host解析--当然 可以使用更方便的host文
 
 会进入到MappingJackson2HttpMessageConverter这个MessageConverter进行返回值的转换，
 
-里面最后就是使用了jackson ObjectMapper 的write方法 把具体的对象写出去。。。
+里面最后就是使用了jackson ObjectMapper 的write方法 把**具体**的对象写出去。。。

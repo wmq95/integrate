@@ -15,6 +15,12 @@
 
     <dependencies>
 
+        <!--nacos-discovery-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
         <!--web-api-->
         <dependency>
             <groupId>top.fan2wan</groupId>
