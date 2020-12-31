@@ -118,10 +118,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <!-- 使用Maven插件直接将应用打包为一个Docker镜像 -->
             <plugin>
                 <groupId>com.spotify</groupId>

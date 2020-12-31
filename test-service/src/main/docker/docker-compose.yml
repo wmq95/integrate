@@ -4,7 +4,7 @@ services:
   testService:
     image: 192.168.99.100:5000/test-service:latest
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - redis
       - rabbitmq
@@ -12,9 +12,11 @@ services:
       - redis:myRedis
       - rabbitmq:myMq
       - es:myEs
+      - nacos:myNacos
 # 使用external_link 可以连接到用其他宿主机docker 启动的容器 es 为运行容器的名字 myEs 为别名
 # 这样 redis 和rabbitmq 也可以原先启动 然后同样的方式去链接
 #    external_links:
+#      - myNacos:myNacos
 #      - es:myEs
     networks:
       - test
@@ -59,6 +61,16 @@ services:
     networks:
       - test
 
+  nacos:
+    image:  nacos/nacos-server
+    container_name: myNacos
+    ports:
+      - "8848:8848"
+#      - "9555:9555"
+    networks:
+      - test
+    environment:
+      - "MODE=standalone"
 # 设置test的网络
 #这个方式会在启动的时候 创建一个名为test的网络 driver 是bridge模式
 
