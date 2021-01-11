@@ -41,6 +41,13 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
+        <!--test api-->
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>test-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 

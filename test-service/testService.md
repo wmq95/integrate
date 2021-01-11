@@ -85,7 +85,7 @@ elasticsearch 集成：
 
 ​	
 
-##### 2）docker，maven和docker 插件、docker-compose
+##### 2）docker集成
 
 ​	项目添加 docker-maven-plugin 插件：这个插件可以绑定docker 命令到各个maven命令阶段
 
@@ -97,17 +97,22 @@ elasticsearch 集成：
 
 ```
 depends_on：依赖服务，启动当前service 会先启动所依赖的服务
+但是有个问题，不会等依赖服务启动成功在启动当前的service 也许会导致当前service 启动失败
 links： 链接访问服务别名，可以给其他服务使用别名，然后在当前容器中，使用别名访问其他容器
 external_links： 与外部创建（可以是之前调用compose通过其他yml创建的，也可以是手工创建的容器）的容器link起来，使之可以通信
 networks： 设置docker-compose 使用的网络，相当于用docker命令创建了一个网络，然后所有容器都在这个网络里面，当前也可以设置多个网络，然后做到隔离。
 extra_hosts： 为容器添加host解析--当然 可以使用更方便的host文件挂载
 ```
 
-​	docker-compose up -d:后台启动compose 编排的各个容器，当多次执行，每次回去判断当前执行的容器是不是最新的操作，如果就不会重启对应服务，如果不是就会拉取最新镜像启动服务。
+docker-compose up -d:后台启动compose 编排的各个容器，当多次执行，每次回去判断当前执行的容器是不是最新的操作，如果就不会重启对应服务，如果不是就会拉取最新镜像启动服务。
 
-3）多配置文件，maven 多profile
+docker-compose 使用host 网络的时候 network_mode: "host" ，而且使用了host 之后不能使用links。
 
-4）webFlux reactor 编程
+docker 创建的容器bridge 模式下 （windows 并不能ping通容器的ip，本地环境使用的时docker-machine） 但是在linux 上可以ping通容器ip 。
+
+3）多配置文件
+
+4）webFlux reactor
 
 5）配置中心
 
@@ -136,3 +141,7 @@ extra_hosts： 为容器添加host解析--当然 可以使用更方便的host文
 会进入到MappingJackson2HttpMessageConverter这个MessageConverter进行返回值的转换，
 
 里面最后就是使用了jackson ObjectMapper 的write方法 把**具体**的对象写出去。。。
+
+​	2	同意局域网内，不同主机docker 容器怎么相互ping通。通过在宿主机上添加路由的方式。（没测试过。。
+
+https://www.easck.com/cos/2020/0812/569940.shtml）

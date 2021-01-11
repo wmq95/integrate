@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import springfox.documentation.annotations.ApiIgnore;
 import top.fan2wan.common.util.IdGenerator;
 import top.fan2wan.test.config.MqConfig;
@@ -18,6 +20,9 @@ import top.fan2wan.test.entity.User;
 import top.fan2wan.test.feign.TestFeignApi;
 import top.fan2wan.test.mq.Sender;
 import top.fan2wan.test.util.RedisUtil;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /**
  * @Author: fant2
@@ -34,6 +39,7 @@ public class TestController implements TestFeignApi {
     private final Sender sender;
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     private static Logger logger = LoggerFactory.getLogger(TestController.class);
+
     public TestController(DozerBeanMapper mapper, RedisUtil redisUtil,
                           RabbitTemplate rabbitTemplate, Sender sender,
                           ElasticsearchRestTemplate elasticsearchRestTemplate) {
@@ -53,6 +59,74 @@ public class TestController implements TestFeignApi {
     @Override
     public String toLower(String name) {
         return name.toLowerCase();
+    }
+
+    /**
+     * test for feign
+     *
+     * @param name name
+     * @return name.toUpper
+     */
+    @Override
+    public String testForName(String name) {
+        logger.info("testForName -- name was :{}", name);
+        logger.info("wait for 8s");
+        //测试feign调用超时  超市时间为6s
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return name.toUpperCase();
+    }
+
+    /**
+     * test for future
+     *
+     * @param name name
+     * @return future<String>
+     */
+    @Override
+    public FutureTask<String> testForFuture(String name) {
+        logger.info("testForFuture -- name was :{}", name);
+        logger.info("wait for 2s");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new FutureTask<>(name::toUpperCase);
+    }
+
+    /**
+     * testForCallable
+     *
+     * @param name name
+     * @return callable
+     */
+    @Override
+    public Callable<String> testForCallable(String name) {
+        logger.info("testForCallable -- name was :{}", name);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return name::toUpperCase;
+    }
+
+    /**
+     * testForRequestHolder
+     *
+     * @param name name
+     * @return String
+     */
+    @Override
+    public String testForRequestHolder(String name) {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        String user = requestAttributes.getRequest().getHeader("user");
+        logger.info("testForRequestHolder -- user was :{}", user);
+        return user;
     }
 
     @RequestMapping("testService/index/dozer")

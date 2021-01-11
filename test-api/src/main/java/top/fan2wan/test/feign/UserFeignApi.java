@@ -19,7 +19,7 @@ import javax.validation.Valid;
  * @Date: 2020/9/30 13:56
  * @Description: feignApi for user
  */
-@FeignClient("test")
+@FeignClient("testService")
 @Api(tags = "用户feign")
 public interface UserFeignApi {
 
