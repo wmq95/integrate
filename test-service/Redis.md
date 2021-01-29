@@ -66,7 +66,7 @@ redis Cluster 保留了之前redis 的主从模型，因为 在分布式存储�
 
 ## Spring cache 集成
 
-和springCahe 集成简单 但是使用cahce自带的cacheable，cachePut 注解有几点注意
+和springCache 集成简单 但是使用cahce自带的cacheAble，cachePut 注解有几点注意
 
 1	只能加在public 方法上
 
