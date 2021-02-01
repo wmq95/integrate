@@ -38,12 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/index/hello").permitAll()
+                .antMatchers("/resource/**").permitAll()
+                .antMatchers("/oauth2/authorization/github/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new UserLoginFilter(authenticationManager(), jwtUtil))
-                .addFilter(new UserAuthFilter(authenticationManager(), jwtUtil)).httpBasic();
-        ;
+                .addFilter(new UserAuthFilter(authenticationManager(), jwtUtil)).httpBasic()
+                .and().oauth2Login();
     }
 
     @Override
