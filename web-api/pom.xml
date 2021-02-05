@@ -29,6 +29,12 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>common-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

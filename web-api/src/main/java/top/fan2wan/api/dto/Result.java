@@ -1,10 +1,9 @@
 package top.fan2wan.api.dto;
 
-import com.google.common.collect.Maps;
 import top.fan2wan.api.exception.BusinessException;
+import top.fan2wan.api.support.IMsgCode;
 
 import java.time.Instant;
-import java.util.Map;
 
 /**
  * @Author: fanT
@@ -157,9 +156,9 @@ public class Result<T> {
      */
     public static Result success(Object data) {
         Result result = new Result();
+        result.setResult(data);
         result.setMessage(SUCCESS_MSG);
         result.setCode(SUCCESS_CODE);
-        result.setResult(data);
         result.setTimestamp(Instant.now().toEpochMilli());
         return result;
     }
@@ -173,6 +172,34 @@ public class Result<T> {
         Result result = new Result();
         result.setMessage(FAILURE_MSG);
         result.setCode(FAILURE_CODE);
+        result.setTimestamp(Instant.now().toEpochMilli());
+        return result;
+    }
+
+    /**
+     * error
+     *
+     * @return success
+     */
+    public static Result error(String msg) {
+        Result result = new Result();
+        result.setCode(FAILURE_CODE);
+        result.setMessage(FAILURE_MSG);
+        result.setResult(msg);
+        result.setTimestamp(Instant.now().toEpochMilli());
+        return result;
+    }
+
+    /**
+     * error
+     *
+     * @return success
+     */
+    public static Result error(IMsgCode code) {
+        Result result = new Result();
+        result.setMessage(code.getMessage());
+        result.setCode(code.getCode());
+        result.setResult(null);
         result.setTimestamp(Instant.now().toEpochMilli());
         return result;
     }

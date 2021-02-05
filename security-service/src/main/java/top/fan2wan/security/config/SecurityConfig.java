@@ -1,6 +1,8 @@
 package top.fan2wan.security.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/index/hello").permitAll()
                 .antMatchers("/resource/**").permitAll()
+                .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/oauth2/authorization/github/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
@@ -53,8 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    /*@Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/index/**");
-    }*/
+
+    // 用于authorization
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
 }

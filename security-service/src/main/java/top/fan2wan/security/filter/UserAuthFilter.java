@@ -6,7 +6,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import top.fan2wan.api.exception.MsgCode;
+import top.fan2wan.api.util.ExceptionUtil;
 import top.fan2wan.security.util.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: fanT
@@ -36,6 +40,9 @@ public class UserAuthFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         //获取当前认证成功用户权限信息
         UsernamePasswordAuthenticationToken authRequest = getAuthentication(request);
+        if (Objects.isNull(authRequest)) {
+            throw new UnauthorizedUserException(MsgCode.TOKEN_INVALID.getMessage());
+        }
         //判断如果有权限信息，放到权限上下文中
         if(authRequest != null) {
             SecurityContextHolder.getContext().setAuthentication(authRequest);

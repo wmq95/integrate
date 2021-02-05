@@ -12,11 +12,15 @@ public enum MsgCode implements IMsgCode {
     /**
      * 成功
      */
-    SUCCESS(200, "SUCCESS"),
+    SUCCESS(200, "success"),
+    /**
+     * token
+     */
+    TOKEN_INVALID(4001, "token_invalid"),
     /**
      * 失败
      */
-    FAILED(500, "FAILED");
+    FAILED(500, "failed");
 
     /**
      * 信息编号

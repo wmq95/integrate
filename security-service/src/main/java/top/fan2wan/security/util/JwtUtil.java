@@ -1,7 +1,10 @@
 package top.fan2wan.security.util;
 
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import top.fan2wan.api.exception.MsgCode;
+import top.fan2wan.api.util.ExceptionUtil;
 
 import java.time.Instant;
 import java.util.Date;
@@ -25,6 +28,7 @@ import java.util.Date;
  * signature:    签名
  */
 @Component
+@Slf4j
 public class JwtUtil {
 
     public static final String SECRET = "fanT";
@@ -42,29 +46,30 @@ public class JwtUtil {
     }
 
     public String getUsername(String token) {
-        String username;
-        try {
-            username = getTokenBody(token).getSubject();
-        } catch (Exception e) {
-            username = null;
-        }
-        return username;
+        return getTokenBody(token).getSubject();
     }
 
     private static Claims getTokenBody(String token) {
         Claims claims = null;
         try {
-            claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+            claims = Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(token)
+                    .getBody();
+            log.info(" data was :{}", claims.getExpiration());
         } catch (ExpiredJwtException e) {
-            e.printStackTrace();
+            log.error("getTokenBody -- ExpiredJwtException, error was :{}", e.getMessage());
+            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         } catch (UnsupportedJwtException e) {
-            e.printStackTrace();
+            log.info("getTokenBody -- UnsupportedJwtException, error was :{}", e.getMessage());
+            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         } catch (MalformedJwtException e) {
-            e.printStackTrace();
+            log.info("getTokenBody -- MalformedJwtException, error was :{}", e.getMessage());
+            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         } catch (SignatureException e) {
-            e.printStackTrace();
+            log.info("getTokenBody -- SignatureException, error was :{}", e.getMessage());
+            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            log.info("getTokenBody -- IllegalArgumentException, error was :{}", e.getMessage());
+            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         }
         return claims;
     }
