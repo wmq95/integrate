@@ -1,7 +1,7 @@
 package top.fan2wan.api.util;
 
 import top.fan2wan.api.exception.BusinessException;
-import top.fan2wan.api.exception.MsgCode;
+import top.fan2wan.api.support.IMsgCode;
 
 /**
  * @Author: fanT
@@ -15,7 +15,19 @@ public class ExceptionUtil extends cn.hutool.core.exceptions.ExceptionUtil {
      *
      * @param msgCodeEnum the msg code enum
      */
-    public static void throwException(MsgCode msgCodeEnum) {
+    public static void throwException(IMsgCode msgCodeEnum) {
         throw new BusinessException(msgCodeEnum);
+    }
+
+    /**
+     * 语法糖 check
+     *
+     * @param flag    flag
+     * @param msgCode msgCode
+     */
+    public static void checkException(boolean flag, IMsgCode msgCode) {
+        if (!flag) {
+            throwException(msgCode);
+        }
     }
 }

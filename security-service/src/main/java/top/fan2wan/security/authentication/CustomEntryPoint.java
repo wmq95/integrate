@@ -32,9 +32,12 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
         if (cause instanceof OAuth2AccessDeniedException) {
             // 资源权限不足
+            log.info("token was expired");
+            log.info("error was :{}", cause.getMessage());
             ResponseUtil.out(response, Result.error(MsgCode.TOKEN_INVALID));
         } else if (cause == null || cause instanceof InvalidTokenException) {
             // 未带token或token无效
+            log.info("error was :{}", cause.getMessage());
             // cause == null 一般可能是未带token
             ResponseUtil.out(response, Result.error(MsgCode.TOKEN_INVALID));
         }

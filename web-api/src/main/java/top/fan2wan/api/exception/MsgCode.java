@@ -13,10 +13,16 @@ public enum MsgCode implements IMsgCode {
      * 成功
      */
     SUCCESS(200, "success"),
+
     /**
      * token
      */
     TOKEN_INVALID(4001, "token_invalid"),
+
+    /**
+     * 参数异常
+     */
+    PARAM_ERROR(4002, "param_error"),
     /**
      * 失败
      */
