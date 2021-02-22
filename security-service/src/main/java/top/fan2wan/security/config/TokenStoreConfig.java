@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import top.fan2wan.security.constant.StrConstant;
 import top.fan2wan.security.util.JwtUtil;
 
 import java.util.Date;
@@ -64,11 +65,11 @@ class CustomerTokenConverter extends JwtAccessTokenConverter {
         // access_token 包含自动刷新过期token需要的数据(client_id/secret/refresh_token)
         Map<String, Object> details = (Map<String, Object>) authentication.getUserAuthentication().getDetails();
         if (!Objects.isNull(details) && details.size() > 0) {
-            info.put("client_id",
-                    details.getOrDefault("client_id", details.get("client_id")));
+            info.put(StrConstant.CLIENT_ID,
+                    details.getOrDefault(StrConstant.CLIENT_ID, details.get(StrConstant.CLIENT_ID)));
 
-            info.put("client_secret",
-                    details.getOrDefault("client_secret", details.get("client_secret")));
+            info.put(StrConstant.CLIENT_SECRET,
+                    details.getOrDefault(StrConstant.CLIENT_SECRET, details.get(StrConstant.CLIENT_SECRET)));
         }
 
         OAuth2RefreshToken refreshToken = result.getRefreshToken();
@@ -90,11 +91,11 @@ class CustomerTokenConverter extends JwtAccessTokenConverter {
             refreshTokenInfo.put(TOKEN_ID, encodedRefreshToken.getValue());
             // refresh token包含client id/secret, 自动刷新过期token时用到。
             if (!Objects.isNull(details) && details.size() > 0) {
-                refreshTokenInfo.put("client_id",
-                        details.getOrDefault("client_id", details.get("client_id")));
+                refreshTokenInfo.put(StrConstant.CLIENT_ID,
+                        details.getOrDefault(StrConstant.CLIENT_ID, details.get(StrConstant.CLIENT_ID)));
 
-                refreshTokenInfo.put("client_secret",
-                        details.getOrDefault("client_secret", details.get("client_secret")));
+                refreshTokenInfo.put(StrConstant.CLIENT_SECRET,
+                        details.getOrDefault(StrConstant.CLIENT_SECRET, details.get(StrConstant.CLIENT_SECRET)));
             }
             refreshTokenInfo.put(ACCESS_TOKEN_ID, tokenId);
             encodedRefreshToken.setAdditionalInformation(refreshTokenInfo);
@@ -106,7 +107,7 @@ class CustomerTokenConverter extends JwtAccessTokenConverter {
                 token = new DefaultExpiringOAuth2RefreshToken(encode(encodedRefreshToken, authentication), expiration);
             }
             result.setRefreshToken(token);
-            info.put("refresh", token.getValue());
+            info.put(StrConstant.REFRESH_TOKEN_KEY, token.getValue());
         }
         result.setAdditionalInformation(info);
         result.setValue(encode(result, authentication));

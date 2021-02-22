@@ -1,5 +1,6 @@
 package top.fan2wan.security.service.impl;
 
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -7,16 +8,20 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+import top.fan2wan.api.dto.Result;
 import top.fan2wan.api.exception.MsgCode;
 import top.fan2wan.api.util.ExceptionUtil;
 import top.fan2wan.oauth.dto.LoginDTO;
 import top.fan2wan.oauth.param.LoginParam;
+import top.fan2wan.security.constant.StrConstant;
+import top.fan2wan.security.enums.OauthGrantTypeEnum;
 import top.fan2wan.security.service.ITokenService;
+import top.fan2wan.security.util.JwtUtil;
+import top.fan2wan.web.util.WebUtil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -36,13 +41,13 @@ public class TokenServiceImpl implements ITokenService {
     public static final String OAUTH_TOKEN = "/oauth/token";
     public static final String BASIC = "Basic ";
     public static final String AUTHORIZATION = "Authorization";
-    public static final String GRANT_TYPE = "grant_type";
-    public static final String CLIENT_ID = "client_id";
-    public static final String SCOPE = "scope";
-    public static final String CLIENT_SECRET = "client_secret";
-    public static final String PASSWORD = "password";
-    public static final String USERNAME = "username";
-    public static final String ACCESS_TOKEN = "access_token";
+//    public static final String GRANT_TYPE = "grant_type";
+//    public static final String CLIENT_ID = "client_id";
+//    public static final String SCOPE = "scope";
+//    public static final String CLIENT_SECRET = "client_secret";
+//    public static final String PASSWORD = "password";
+//    public static final String USERNAME = "username";
+//    public static final String ACCESS_TOKEN = "access_token";
 
     private final RestTemplate restTemplate;
 
@@ -68,17 +73,15 @@ public class TokenServiceImpl implements ITokenService {
 
         //设置headers
         LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        String httpBasic = this.getHttpBasic(loginParam.getClientId(), loginParam.getClientSecret());
-        headers.add(AUTHORIZATION, httpBasic);
 
         //设置body
         LinkedMultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add(GRANT_TYPE, loginParam.getGrantType());
-        body.add(USERNAME, loginParam.getUsername());
-        body.add(PASSWORD, loginParam.getPassword());
-        body.add(CLIENT_SECRET, loginParam.getClientSecret());
-        body.add(CLIENT_ID, loginParam.getClientId());
-        body.add(SCOPE, loginParam.getScope());
+        body.add(StrConstant.GRANT_TYPE, loginParam.getGrantType());
+        body.add(StrConstant.USERNAME, loginParam.getUsername());
+        body.add(StrConstant.PASSWORD, loginParam.getPassword());
+        body.add(StrConstant.CLIENT_SECRET, loginParam.getClientSecret());
+        body.add(StrConstant.CLIENT_ID, loginParam.getClientId());
+        body.add(StrConstant.SCOPE, loginParam.getScope());
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, headers);
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
             @Override
@@ -91,32 +94,90 @@ public class TokenServiceImpl implements ITokenService {
         ResponseEntity<Map> exchange = restTemplate.exchange(authUrl, HttpMethod.POST, httpEntity, Map.class);
         Map jwtBody = exchange.getBody();
         log.info("jwtBody was :{}", jwtBody);
-/*        if (jwtBody == null || jwtBody.get(ACCESS_TOKEN) == null || jwtBody.get(REFRESH_TOKEN) == null || jwtBody.get(JTI) == null) {
-            log.info("exchange {}", exchange);
-            log.info("jwtBody {}", jwtBody);
-            Result result = new Result();
-            if (HttpStatus.OK.value() == exchange.getStatusCode().value()) {
-                result.setCode((Integer) jwtBody.get(RESULT_CODE));
-                result.setMessage((String) jwtBody.get(RESULT_MESSAGE));
-            } else if (HttpStatus.UNAUTHORIZED.value() == exchange.getStatusCode().value()) {
-                result.setCode(MsgCodeEnum.CLIENT_ERROR.code());
-                result.setMessage(MsgCodeEnum.CLIENT_ERROR.msg());
-            } else {
-                result.setCode(exchange.getStatusCode().value());
-                result.setMessage((String) jwtBody.get(ERROR_DESCRIPTION));
-            }
-            return result;
-        }*/
 
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setAccessToken((String) jwtBody.get(ACCESS_TOKEN));
+        if (Objects.isNull(jwtBody) || !jwtBody.containsKey(StrConstant.ACCESS_TOKEN)) {
+            return loginDTO;
+        }
+
+        loginDTO.setAccessToken((String) jwtBody.get(StrConstant.ACCESS_TOKEN));
         return loginDTO;
     }
 
+    /**
+     * 刷新access_token
+     *
+     * @return access_token
+     */
+    @Override
+    public Result refresh() {
+        return refresh(WebUtil.getAccessToken());
+    }
 
-    private String getHttpBasic(String clientId, String clientSecret) {
-        String string = clientId + PORT_SPLIT + clientSecret;
-        byte[] bytes = Base64Utils.encode(string.getBytes());
-        return BASIC + new String(bytes);
+    /**
+     * 刷新access_token
+     *
+     * @param token 这个token 是access_token 但是里面包含了refresh_token
+     * @return access_token
+     */
+    public Result refresh(String token) {
+        log.info("refresh -- token was :{}", token);
+        Result result = Result.error();
+        String refreshToken;
+        String clientId;
+        String clientSecret;
+        try {
+            Claims tokenBody = JwtUtil.getTokenBody(token);
+            refreshToken = tokenBody.get(StrConstant.REFRESH_TOKEN_KEY).toString();
+            clientId = tokenBody.get(StrConstant.CLIENT_ID).toString();
+            clientSecret = tokenBody.get(StrConstant.CLIENT_SECRET).toString();
+        } catch (Exception e) {
+            log.error("refresh -- getRefreshToken error was :{}", e.getMessage());
+            result.setCode(MsgCode.TOKEN_INVALID.getCode());
+            result.setMessage(MsgCode.TOKEN_INVALID.getMessage());
+            return result;
+        }
+
+        //设置headers
+        LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+
+        //设置body
+        LinkedMultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add(StrConstant.GRANT_TYPE, OauthGrantTypeEnum.REFRESH_TOKEN.getName());
+        body.add(StrConstant.CLIENT_SECRET, clientSecret);
+        body.add(StrConstant.CLIENT_ID, clientId);
+        body.add(OauthGrantTypeEnum.REFRESH_TOKEN.getName(), refreshToken);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, headers);
+        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
+            @Override
+            public void handleError(ClientHttpResponse response) throws IOException {
+                if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401) {
+                    ExceptionUtil.throwException(MsgCode.PARAM_ERROR);
+                }
+            }
+        });
+
+        String authUrl = HTTP_LOCALHOST + PORT_SPLIT + serverPort + OAUTH_TOKEN;
+        ResponseEntity<Map> exchange = restTemplate.exchange(authUrl, HttpMethod.POST, httpEntity, Map.class);
+        Map jwtBody = exchange.getBody();
+        log.info("jwtBody was :{}", jwtBody);
+
+        if (Objects.isNull(jwtBody) || jwtBody.containsKey(StrConstant.ERROR)
+                || Objects.isNull(jwtBody.get(StrConstant.ACCESS_TOKEN))) {
+            // 异常
+                    /*{
+    "error": "invalid_token",
+    "error_description": "Invalid refresh token (expired): eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJmYW50Iiwic2NvcGUiOlsiYWxsIl0sImF0aSI6IjM3ODk3NWNmLWNmOGUtNGMxOS04YTYyLTQzZjgyODEwZmU1YiIsImNsaWVudF9zZWNyZXQiOiJzZWNyZXQiLCJleHAiOjE2MTM5NjA2NDQsImF1dGhvcml0aWVzIjpbImFkbWluIl0sImp0aSI6IjY4MDk5MmMzLTExMDItNDlmZC04OWZkLWE0NTE1ZTgzZDMwNiIsImNsaWVudF9pZCI6ImNsaWVudCJ9.OMSslCP0d8flSRTWQTQLTw3IZfksa1UovgdaglqZMwQ"
+}*/
+            //TODO 异常返回
+            return result;
+        }
+
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setAccessToken(jwtBody.get(StrConstant.ACCESS_TOKEN).toString());
+        result.setResult(loginDTO);
+        result.setCode(Result.SUCCESS_CODE);
+        result.setMessage(Result.SUCCESS_MSG);
+        return result;
     }
 }

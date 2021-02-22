@@ -49,12 +49,12 @@ public class JwtUtil {
         return getTokenBody(token).getSubject();
     }
 
-    private static Claims getTokenBody(String token) {
+    public static Claims getTokenBody(String token) {
         Claims claims = null;
         try {
             claims = Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(token)
                     .getBody();
-            log.info(" data was :{}", claims.getExpiration());
+            log.info(" claims was :{}", claims);
         } catch (ExpiredJwtException e) {
             log.error("getTokenBody -- ExpiredJwtException, error was :{}", e.getMessage());
             ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
@@ -72,5 +72,16 @@ public class JwtUtil {
             ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         }
         return claims;
+    }
+
+    public static boolean checkJwt(String jwt) {
+        boolean flag = false;
+        try {
+            Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwt);
+            flag = true;
+        } catch (Exception e) {
+            log.error("checkJwt, error was :{}", e.getMessage());
+        }
+        return flag;
     }
 }

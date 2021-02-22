@@ -33,4 +33,14 @@ public class TokenController implements ITokenFeign {
     public Result<LoginDTO> login(@Valid LoginParam param) {
         return Result.success(tokenService.login(param));
     }
+
+    /**
+     * 刷新token
+     *
+     * @return LoginDTO
+     */
+    @Override
+    public Result<LoginDTO> refresh() {
+        return tokenService.refresh();
+    }
 }

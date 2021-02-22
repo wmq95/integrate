@@ -1,5 +1,6 @@
 package top.fan2wan.security.service;
 
+import top.fan2wan.api.dto.Result;
 import top.fan2wan.oauth.dto.LoginDTO;
 import top.fan2wan.oauth.param.LoginParam;
 
@@ -16,4 +17,11 @@ public interface ITokenService {
      * @return LoginDTO
      */
     LoginDTO login(LoginParam param);
+
+    /**
+     * 刷新access_token
+     *
+     * @return access_token
+     */
+    Result refresh();
 }

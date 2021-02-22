@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.web.client.RestTemplate;
 import top.fan2wan.security.config.CustomerTokenEnhancer;
+import top.fan2wan.security.enums.OauthGrantTypeEnum;
 
 import java.util.Arrays;
 
@@ -29,7 +30,7 @@ import java.util.Arrays;
  * oauth/token 访问得时候 需要带上basic auth  用户名和密码就是 设置得clientId 和secret
  * 在security-oauth2中 把refresh_token 也变为一种授权类型 所以当用refresh_token刷新access_token得时候
  * 把grant_type 设为refresh_token,在传入refresh_token 就可以获取access_token
- *
+ * <p>
  * 对于密码登录--JWT的方式
  * 由于信息保存于JWT中 可以不用持久化保存签发的JWT包括access_token和refresh_token
  * 意味着 即使oauth 服务重启 jwt没有失效 还可以访问接口
@@ -70,9 +71,10 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 .withClient("client")
                 .secret(passwordEncoder.encode("secret"))
-                .authorizedGrantTypes("password", "authorization_code", "client_credentials", "refresh_token")
-                .accessTokenValiditySeconds(30*60)
-                .refreshTokenValiditySeconds(60 * 60)
+                .authorizedGrantTypes(OauthGrantTypeEnum.PASSWORD.getName(), "authorization_code", "client_credentials",
+                        OauthGrantTypeEnum.REFRESH_TOKEN.getName())
+                .accessTokenValiditySeconds(30)
+                .refreshTokenValiditySeconds(60 * 2)
                 .scopes("all");
 //                .autoApprove(true);
         //登录后绕过批准询问(/oauth/confirm_access)

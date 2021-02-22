@@ -30,4 +30,13 @@ public interface ITokenFeign {
     @RequestMapping(value = "/oauth/login", method = RequestMethod.POST, consumes = {"application/json"})
     @ApiOperation(value = "用户登录", response = LoginDTO.class, notes = "用户登录")
     Result<LoginDTO> login(@Valid @RequestBody LoginParam param);
+
+    /**
+     * 刷新token
+     *
+     * @return LoginDTO
+     */
+    @RequestMapping(value = "/oauth/refreshToken", method = RequestMethod.GET)
+    @ApiOperation(value = "刷新token", response = LoginDTO.class, notes = "刷新token")
+    Result<LoginDTO> refresh();
 }
