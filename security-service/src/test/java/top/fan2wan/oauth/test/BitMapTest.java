@@ -7,6 +7,19 @@ import org.apache.commons.lang.StringUtils;
  * @Author: fanT
  * @Date: 2021/2/23 9:37
  * @Description: test for bitMap
+ * <p>
+ * redis中也有bitMap
+ * 统计日活跃用户: setBit key userId 1 限制 用户id 不能过长 int范围 但是现实中 id 都是用Long类型
+ * <p>
+ * 改善: 为每一个用户申请一个bitMap 长度位32
+ * key 就是当月 2020-01-用户id bitMap 就能够用来记录一个月得登录情况
+ * <p>
+ * 如此 1亿得用户 一个月得登录情况 仅仅只需要1亿*32位 / 8 ->B / 1000/1024/1024 不足0.5个G
+ * <p>
+ * 使用redis 得bitMap 记录access_token 过期自动续租返回新的access_token 为了使得原先得access_token 失效
+ * <p>
+ * 记录失效得token 可以把access_token 做一个md5 取得int值 然后用setBit
+ * 事情一个bitMap  保存所有得access_token
  */
 public class BitMapTest {
 
