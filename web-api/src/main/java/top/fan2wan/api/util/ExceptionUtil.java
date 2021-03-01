@@ -25,8 +25,8 @@ public class ExceptionUtil extends cn.hutool.core.exceptions.ExceptionUtil {
      * @param flag    flag
      * @param msgCode msgCode
      */
-    public static void checkException(boolean flag, IMsgCode msgCode) {
-        if (!flag) {
+    public static void checkException(Boolean flag, IMsgCode msgCode) {
+        if (null == flag || !flag) {
             throwException(msgCode);
         }
     }

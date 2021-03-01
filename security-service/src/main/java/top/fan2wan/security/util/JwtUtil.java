@@ -57,7 +57,7 @@ public class JwtUtil {
             log.info(" claims was :{}", claims);
         } catch (ExpiredJwtException e) {
             log.error("getTokenBody -- ExpiredJwtException, error was :{}", e.getMessage());
-            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
+//            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
         } catch (UnsupportedJwtException e) {
             log.info("getTokenBody -- UnsupportedJwtException, error was :{}", e.getMessage());
             ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
@@ -83,5 +83,16 @@ public class JwtUtil {
             log.error("checkJwt, error was :{}", e.getMessage());
         }
         return flag;
+    }
+
+    /**
+     * 检验token 是否过期
+     *
+     * @param jwt jwt
+     * @return boolean true 没有过期 反之过期
+     */
+    public static boolean checkExpired(String jwt) {
+        Date expirationDate = getTokenBody(jwt).getExpiration();
+        return Instant.now().toEpochMilli() < expirationDate.toInstant().toEpochMilli();
     }
 }

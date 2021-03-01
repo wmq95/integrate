@@ -3,6 +3,7 @@ package top.fan2wan.security.controller;
 import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.api.dto.Result;
 import top.fan2wan.oauth.dto.LoginDTO;
+import top.fan2wan.oauth.dto.ValidTokenDTO;
 import top.fan2wan.oauth.feign.ITokenFeign;
 import top.fan2wan.oauth.param.LoginParam;
 import top.fan2wan.security.service.ITokenService;
@@ -43,4 +44,16 @@ public class TokenController implements ITokenFeign {
     public Result<LoginDTO> refresh() {
         return tokenService.refresh();
     }
+
+    /**
+     * 校验accessToken
+     *
+     * @param accessToken accessToken
+     * @return ValidTokenDTO
+     */
+    @Override
+    public Result<ValidTokenDTO> validToken(String accessToken) {
+        return Result.success(tokenService.validToken(accessToken));
+    }
+
 }

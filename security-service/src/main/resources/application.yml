@@ -1,6 +1,5 @@
 server:
   port: 8082
-
 spring:
   security:
     oauth2:
@@ -9,3 +8,5 @@ spring:
           github:
             client-id: 565441be792aeac357bf
             client-secret: e5069421c92499c5b77ed23c4fd7446717ef1404
+  application:
+    name: oauth

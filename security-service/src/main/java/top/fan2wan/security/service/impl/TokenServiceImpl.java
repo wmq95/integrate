@@ -1,5 +1,6 @@
 package top.fan2wan.security.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import top.fan2wan.api.dto.Result;
 import top.fan2wan.api.exception.MsgCode;
 import top.fan2wan.api.util.ExceptionUtil;
 import top.fan2wan.oauth.dto.LoginDTO;
+import top.fan2wan.oauth.dto.ValidTokenDTO;
 import top.fan2wan.oauth.param.LoginParam;
 import top.fan2wan.security.constant.StrConstant;
 import top.fan2wan.security.enums.OauthGrantTypeEnum;
@@ -112,6 +114,25 @@ public class TokenServiceImpl implements ITokenService {
     @Override
     public Result refresh() {
         return refresh(WebUtil.getAccessToken());
+    }
+
+    /**
+     * 校验accessToken
+     *
+     * @param accessToken accessToken
+     * @return ValidTokenDTO
+     */
+    @Override
+    public ValidTokenDTO validToken(String accessToken) {
+        ExceptionUtil.checkException(StrUtil.isNotEmpty(accessToken), MsgCode.PARAM_ERROR);
+
+        ValidTokenDTO dto = new ValidTokenDTO();
+        dto.setIsValid(JwtUtil.checkJwt(accessToken));
+
+        if (dto.getIsValid()) {
+            dto.setIsExpired(!JwtUtil.checkExpired(accessToken));
+        }
+        return dto;
     }
 
     /**
