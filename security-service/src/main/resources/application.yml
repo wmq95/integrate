@@ -10,3 +10,21 @@ spring:
             client-secret: e5069421c92499c5b77ed23c4fd7446717ef1404
   application:
     name: oauth
+  main:
+    allow-bean-definition-overriding: true
+
+ribbon:
+  ConnectTimeout: 5000 # 连接超时时间(ms)
+  ReadTimeout: 5000 # 通信超时时间(ms)
+  OKToRetryOnAllOperations: false
+
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间(ms)  这么配置其实就是禁用了ribbon的重试机制

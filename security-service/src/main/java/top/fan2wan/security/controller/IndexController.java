@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.fan2wan.security.manager.UserManager;
 
 /**
  * @Author: fanT
@@ -16,8 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
+    private final UserManager userManager;
+
+    public IndexController(UserManager userManager) {
+        this.userManager = userManager;
+    }
+
     @RequestMapping("/index/hello")
     public String hello() {
+        userManager.testFeign();
         return "hello";
     }
 

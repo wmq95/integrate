@@ -2,6 +2,8 @@ package top.fan2wan.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @Author: fanT
@@ -29,6 +31,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = {"top.fan2wan.*.feign"})
 public class SecurityApplication {
 
     public static void main(String[] args) {

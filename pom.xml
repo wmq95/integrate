@@ -17,6 +17,8 @@
         <module>gateway-service</module>
         <module>security-service</module>
         <module>oauth-api</module>
+        <module>user-api</module>
+        <module>user-service</module>
     </modules>
 
     <properties>
