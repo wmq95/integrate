@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.api.dto.Result;
 import top.fan2wan.user.feign.IUserFeignApi;
+import top.fan2wan.web.support.idempotent.Idempotent;
 
 /**
  * @Author: fanT
@@ -20,6 +21,7 @@ public class UserController implements IUserFeignApi {
      * @return boolean
      */
     @Override
+    @Idempotent
     public Result<Boolean> test() {
 
         log.info("test -- sleep for 1s");

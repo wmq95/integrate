@@ -203,4 +203,19 @@ public class Result<T> {
         result.setTimestamp(Instant.now().toEpochMilli());
         return result;
     }
+
+    /**
+     * error
+     *
+     * @param e exception
+     * @return result
+     */
+    public static Result error(BusinessException e) {
+        Result result = new Result();
+        result.setResult(null);
+        result.setMessage(e.getMessage());
+        result.setCode(e.getCode());
+        result.setTimestamp(Instant.now().toEpochMilli());
+        return result;
+    }
 }

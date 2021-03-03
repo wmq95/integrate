@@ -15,6 +15,11 @@ public enum MsgCode implements IMsgCode {
     SUCCESS(200, "success"),
 
     /**
+     * 重复操作
+     */
+    REPEAT_OPERATION(2001, "REPEAT_OPERATION"),
+
+    /**
      * token
      */
     TOKEN_INVALID(4001, "token_invalid"),

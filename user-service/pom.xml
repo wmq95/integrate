@@ -14,6 +14,12 @@
 
     <dependencies>
 
+        <!--aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!--user api-->
         <dependency>
             <groupId>top.fan2wan</groupId>
