@@ -38,11 +38,12 @@ public class TokenController implements ITokenFeign {
     /**
      * 刷新token
      *
+     * @param token token
      * @return LoginDTO
      */
     @Override
-    public Result<LoginDTO> refresh() {
-        return tokenService.refresh();
+    public Result<LoginDTO> refresh(String token) {
+        return tokenService.refresh(token);
     }
 
     /**

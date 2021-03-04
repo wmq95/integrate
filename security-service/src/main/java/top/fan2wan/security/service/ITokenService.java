@@ -22,9 +22,10 @@ public interface ITokenService {
     /**
      * 刷新access_token
      *
+     * @param token token
      * @return access_token
      */
-    Result refresh();
+    Result refresh(String token);
 
     /**
      * 校验accessToken

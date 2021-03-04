@@ -73,8 +73,8 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("secret"))
                 .authorizedGrantTypes(OauthGrantTypeEnum.PASSWORD.getName(), "authorization_code", "client_credentials",
                         OauthGrantTypeEnum.REFRESH_TOKEN.getName())
-                .accessTokenValiditySeconds(30)
-                .refreshTokenValiditySeconds(60 * 2)
+                .accessTokenValiditySeconds(60)
+                .refreshTokenValiditySeconds(60 * 5)
                 .scopes("all");
 //                .autoApprove(true);
         //登录后绕过批准询问(/oauth/confirm_access)

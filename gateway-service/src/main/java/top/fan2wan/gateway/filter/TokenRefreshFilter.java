@@ -11,6 +11,8 @@ import reactor.core.publisher.Mono;
 import top.fan2wan.gateway.bo.AccessTokenBO;
 import top.fan2wan.gateway.manager.OauthManager;
 
+import java.util.Objects;
+
 /**
  * @Author: fanT
  * @Date: 2021/3/1 10:51
@@ -30,12 +32,12 @@ public class TokenRefreshFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         AccessTokenBO bo = TokenRefreshContext.get();
-
         try {
-            if (bo.getIsExpired()) {
+            if (Objects.nonNull(bo.getIsExpired()) && bo.getIsExpired()) {
                 //access_token 过期 去刷新token
-                final String token = oauthManager.refreshToken();
+                final String token = oauthManager.refreshToken(bo.getToken());
                 if (StrUtil.isNotBlank(token)) {
+                    log.info("TokenRefreshFilter -- refresh token success, add header");
                     exchange.getResponse().getHeaders().add("token", token);
                 }
             }

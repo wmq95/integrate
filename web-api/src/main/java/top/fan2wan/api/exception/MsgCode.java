@@ -25,9 +25,14 @@ public enum MsgCode implements IMsgCode {
     TOKEN_INVALID(4001, "token_invalid"),
 
     /**
+     * 请求没有携带token
+     */
+    TOKEN_WAS_MISSING(4002, "TOKEN_WAS_MISSING"),
+
+    /**
      * 参数异常
      */
-    PARAM_ERROR(4002, "param_error"),
+    PARAM_ERROR(4003, "param_error"),
     /**
      * 失败
      */

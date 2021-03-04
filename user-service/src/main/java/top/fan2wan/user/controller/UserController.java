@@ -25,11 +25,11 @@ public class UserController implements IUserFeignApi {
     public Result<Boolean> test() {
 
         log.info("test -- sleep for 1s");
-        try {
+        /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         log.info("test -- doSomething success");
         return Result.success(true);
     }

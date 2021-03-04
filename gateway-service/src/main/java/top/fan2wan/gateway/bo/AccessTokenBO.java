@@ -13,4 +13,6 @@ public class AccessTokenBO {
     private Boolean isValid;
 
     private Boolean isExpired;
+
+    private String token;
 }

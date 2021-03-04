@@ -37,11 +37,12 @@ public interface ITokenFeign {
     /**
      * 刷新token
      *
+     * @param token token
      * @return LoginDTO
      */
     @RequestMapping(value = "/oauth/refreshToken", method = RequestMethod.GET)
     @ApiOperation(value = "刷新token", response = LoginDTO.class, notes = "刷新token")
-    Result<LoginDTO> refresh();
+    Result<LoginDTO> refresh(@RequestParam(value = "token", required = false) String token);
 
     /**
      * 校验accessToken

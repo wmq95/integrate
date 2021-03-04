@@ -54,10 +54,11 @@ public class JwtUtil {
         try {
             claims = Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(token)
                     .getBody();
-            log.info(" claims was :{}", claims);
         } catch (ExpiredJwtException e) {
-            log.error("getTokenBody -- ExpiredJwtException, error was :{}", e.getMessage());
+            log.error("getTokenBody -- ExpiredJwtException");
 //            ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
+//            即使过期 也可以获取claims
+            claims = e.getClaims();
         } catch (UnsupportedJwtException e) {
             log.info("getTokenBody -- UnsupportedJwtException, error was :{}", e.getMessage());
             ExceptionUtil.throwException(MsgCode.TOKEN_INVALID);
@@ -77,10 +78,11 @@ public class JwtUtil {
     public static boolean checkJwt(String jwt) {
         boolean flag = false;
         try {
-            Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwt);
+            Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwt)
+                    .getBody();
             flag = true;
-        } catch (Exception e) {
-            log.error("checkJwt, error was :{}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            flag = true;
         }
         return flag;
     }

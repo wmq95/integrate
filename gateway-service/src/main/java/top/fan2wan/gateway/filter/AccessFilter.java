@@ -1,5 +1,6 @@
 package top.fan2wan.gateway.filter;
 
+import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 @Component
 public class AccessFilter implements GlobalFilter, Ordered {
     private static Logger logger = LoggerFactory.getLogger(AccessFilter.class);
-    private static final String[] publicPath = new String[]{"public"};
+    private static final String[] publicPath = new String[]{"public", "hello", "login"};
 
     private final OauthManager oauthManager;
 
@@ -46,13 +47,16 @@ public class AccessFilter implements GlobalFilter, Ordered {
 
         // 根据token 验证有效性。。权限等。。。。
         final String token = exchange.getRequest().getHeaders().getFirst(StringConstant.TOKEN);
-        logger.info("token was :{}", token);
+//        logger.info("token was :{}", token);
         AccessTokenBO accessTokenBO = new AccessTokenBO();
+
         if (needCheck) {
+            ExceptionUtil.checkException(StrUtil.isNotBlank(token), MsgCode.TOKEN_WAS_MISSING);
             // 不是公开的接口 需要检验token
             accessTokenBO = oauthManager.validToken(token);
             ExceptionUtil.checkException(accessTokenBO.getIsValid(), MsgCode.TOKEN_INVALID);
         }
+        accessTokenBO.setToken(token);
         TokenRefreshContext.set(accessTokenBO);
         return chain.filter(exchange);
     }

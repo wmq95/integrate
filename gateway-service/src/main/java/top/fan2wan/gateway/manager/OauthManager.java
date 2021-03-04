@@ -46,10 +46,13 @@ public class OauthManager {
     /**
      * 刷新token
      *
+     * @param token
      * @return token
      */
-    public String refreshToken() {
-
-        return tokenFeign.refresh().result().getAccessToken();
+    public String refreshToken(String token) {
+        if (StrUtil.isBlank(token)) {
+            return null;
+        }
+        return tokenFeign.refresh(token).result().getAccessToken();
     }
 }

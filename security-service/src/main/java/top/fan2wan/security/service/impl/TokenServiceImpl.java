@@ -23,7 +23,6 @@ import top.fan2wan.security.constant.StrConstant;
 import top.fan2wan.security.enums.OauthGrantTypeEnum;
 import top.fan2wan.security.service.ITokenService;
 import top.fan2wan.security.util.JwtUtil;
-import top.fan2wan.web.util.WebUtil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -106,15 +105,6 @@ public class TokenServiceImpl implements ITokenService {
         return loginDTO;
     }
 
-    /**
-     * 刷新access_token
-     *
-     * @return access_token
-     */
-    @Override
-    public Result refresh() {
-        return refresh(WebUtil.getAccessToken());
-    }
 
     /**
      * 校验accessToken
@@ -141,6 +131,7 @@ public class TokenServiceImpl implements ITokenService {
      * @param token 这个token 是access_token 但是里面包含了refresh_token
      * @return access_token
      */
+    @Override
     public Result refresh(String token) {
         log.info("refresh -- token was :{}", token);
         Result result = Result.error();

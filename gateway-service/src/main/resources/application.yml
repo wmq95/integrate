@@ -15,6 +15,18 @@ spring:
         - Path=/testService/**
         filters:
         - RewritePath=/testSerivce/(?<path>.*), /$\{path}
+      - id: oauth
+        uri: lb://oauth
+        predicates:
+        - Path=/oauth/**
+        filters:
+        - RewritePath=/oauth/(?<path>.*), /$\{path}
+      - id: user
+        uri: lb://user
+        predicates:
+        - Path=/user/**
+        filters:
+        - RewritePath=/user/(?<path>.*), /$\{path}
 
       default-filters:
         - name: RequestRateLimiter
