@@ -28,3 +28,4 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 5000 # 设置hystrix的超时时间(ms)  这么配置其实就是禁用了ribbon的重试机制
+          strategy: THREAD

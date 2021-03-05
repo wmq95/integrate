@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.api.dto.Result;
 import top.fan2wan.user.feign.IUserFeignApi;
 import top.fan2wan.web.support.idempotent.Idempotent;
+import top.fan2wan.web.util.WebUtil;
 
 /**
  * @Author: fanT
@@ -24,13 +25,15 @@ public class UserController implements IUserFeignApi {
     @Idempotent
     public Result<Boolean> test() {
 
-        log.info("test -- sleep for 1s");
-        /*try {
+        log.info("test -- token was :{}", WebUtil.getAccessToken());
+        /*log.info("test -- sleep for 1s");
+        try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
-        log.info("test -- doSomething success");
+        }
+
+        log.info("test -- doSomething success");*/
         return Result.success(true);
     }
 }
