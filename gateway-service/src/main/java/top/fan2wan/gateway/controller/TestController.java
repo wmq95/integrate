@@ -1,5 +1,6 @@
 package top.fan2wan.gateway.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test")
 @RefreshScope
+@Slf4j
 public class TestController {
 
     @Value("${test.name}")
@@ -22,6 +24,7 @@ public class TestController {
 
     @RequestMapping("/getUserName")
     public String getUserName() {
+        log.info("getUserName -- test for config");
         return userName;
     }
 }

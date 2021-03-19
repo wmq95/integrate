@@ -112,15 +112,23 @@ docker 创建的容器bridge 模式下 （windows 并不能ping通容器的ip，
 
 3）多配置文件
 
-4）webFlux reactor
+##### 4）webFlux reactor
 
-5）配置中心
+搭建gateway ，完成限流，lb转发，过滤器等
 
-6）feign 调用-负载均衡
+##### 5）配置中心
+
+使用nacos 完成配置中心
+
+##### 6）feign 调用-负载均衡
+
+除了lb，还有就是重试机制，集成ribbon，重试机制需要注意接口的幂等行，ribbon的超时时间和hystrix的熔断时间需要注意，header丢失的情况，线程隔离下 需要额外配置隔离策略达到header的传递
 
 7）链路追踪
 
-8）网关-鉴权、授权
+##### 8）网关-鉴权、授权
+
+鉴权、授权采用spring的security，采用无状态的jwt实现，实现了oauth2 协议，为了方便 把refreshToken 放在了accessToken中，然后实现了accessToken 过期自动刷新策略
 
 9）分布式事务
 
