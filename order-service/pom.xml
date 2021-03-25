@@ -9,28 +9,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-service</artifactId>
-
+    <artifactId>order-service</artifactId>
 
     <dependencies>
 
-        <!--distribute-->
+        <!--order api-->
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>distributeDB</artifactId>
+            <artifactId>order-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!--aop -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+        <!--distribute-->
+        <!--<dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>distributeDB</artifactId>
+            <version>${project.version}</version>
+        </dependency>-->
 
-        <!--user api-->
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>user-api</artifactId>
+            <artifactId>mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -47,4 +46,5 @@
             <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
+
 </project>

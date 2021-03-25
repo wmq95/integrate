@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: myNacos:8848
+#这2个参数指定当前服务注册的ip和端口
+#因为在docker 中 容器的container ip是随机分配的 注册到nacos的ip不是docker 的ip  而且127开头的ip
+#场景: docker 启动了nacos test个服务 ，宿主机本地启动了 test 和gateway
+# gateway 指定了路由 当时当访问docker启动的test 服务 显示访问超时，打印出来的ip为127....所以是不能访问的
+#所以制定了服务注册的iP和端口 可以成功访问
+#        ip: 192.168.99.100
+#        port: 8003

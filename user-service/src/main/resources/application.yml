@@ -3,3 +3,34 @@ server:
 spring:
   application:
     name: user
+
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://my:7777/testSpring?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Shanghai
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456
+seata:
+  tx-service-group: my_test_tx_group
+  registry:
+    type: nacos #nacos
+    nacos:
+      application: seata-server
+      server-addr: 10.80.25.74:8848
+  config:
+    type: nacos
+    nacos:
+      server-addr: 10.80.25.74:8848
+      group: SEATA_GROUP
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+    disable-global-transaction: false
+  client:
+    rm:
+      report-success-enable: true
+    undo:
+      log-table: undo_log
+      log-serialization: jackson
+      data-validation: true
+

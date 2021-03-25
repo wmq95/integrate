@@ -19,9 +19,14 @@
         <module>oauth-api</module>
         <module>user-api</module>
         <module>user-service</module>
+        <module>database</module>
+        <module>database</module>
+        <module>order-api</module>
+        <module>order-service</module>
     </modules>
 
     <properties>
+        <!--<server.verson>1.0-SNAPSHOT</server.verson>-->
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
         <nacos.version>2.1.2.RELEASE</nacos.version>
@@ -37,6 +42,7 @@
         <dozer.version>5.5.1</dozer.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <docker.registry>192.168.99.100:5000</docker.registry>
+        <spring-cloud-seata.version>2.2.3.RELEASE</spring-cloud-seata.version>
     </properties>
 
     <dependencyManagement>
@@ -128,6 +134,13 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger2.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-seata -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${spring-cloud-seata.version}</version>
             </dependency>
 
         </dependencies>

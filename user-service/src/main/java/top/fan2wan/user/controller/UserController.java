@@ -1,9 +1,17 @@
 package top.fan2wan.user.controller;
 
+import io.seata.spring.annotation.GlobalTransactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 import top.fan2wan.api.dto.Result;
+import top.fan2wan.common.util.IdGenerator;
+import top.fan2wan.user.entity.User;
 import top.fan2wan.user.feign.IUserFeignApi;
+import top.fan2wan.user.service.IUserService;
 import top.fan2wan.web.support.idempotent.Idempotent;
 import top.fan2wan.web.util.WebUtil;
 
@@ -14,7 +22,10 @@ import top.fan2wan.web.util.WebUtil;
  */
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class UserController implements IUserFeignApi {
+
+    final private IUserService userService;
 
     /**
      * test
@@ -35,5 +46,24 @@ public class UserController implements IUserFeignApi {
 
         log.info("test -- doSomething success");*/
         return Result.success(true);
+    }
+
+    @ApiIgnore
+    @RequestMapping("/user/save")
+    @GlobalTransactional
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean save() {
+        User user = new User();
+        user.setPassword("123213213");
+        user.setId(IdGenerator.getId());
+        user.setName("distribute");
+        user.setUserName("distribute");
+        userService.save(user);
+        /**
+         * TODO
+         * 没有undo 日志 不知道是不是因为没有跨服务调用
+         * 加入另一个模块试一下
+         */
+        return true;
     }
 }
