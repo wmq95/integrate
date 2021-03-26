@@ -10,27 +10,41 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
       password: 123456
-#seata:
-#  tx-service-group: my_test_tx_group
-#  registry:
-#    type: nacos #nacos
-#    nacos:
-#      application: seata-server
-#      server-addr: 10.80.25.74:8848
-#  config:
-#    type: nacos
-#    nacos:
-#      server-addr: 10.80.25.74:8848
-#      group: SEATA_GROUP
-#  service:
-#    vgroup-mapping:
-#      my_test_tx_group: default
-#    disable-global-transaction: false
-#  client:
-#    rm:
-#      report-success-enable: true
-#    undo:
-#      log-table: undo_log
-#      log-serialization: jackson
-#      data-validation: true
+  main:
+    allow-bean-definition-overriding: true
 
+seata:
+  tx-service-group: my_test_tx_group
+  registry:
+    type: nacos #nacos
+    nacos:
+      application: seata-server
+      server-addr: 10.80.25.74:8848
+  config:
+    type: nacos
+    nacos:
+      server-addr: 10.80.25.74:8848
+      group: SEATA_GROUP
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+    disable-global-transaction: false
+  client:
+    rm:
+      report-success-enable: true
+    undo:
+      log-table: undo_log
+      log-serialization: jackson
+      data-validation: true
+
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 设置hystrix的超时时间(ms)  这么配置其实就是禁用了ribbon的重试机制
+          strategy: THREAD

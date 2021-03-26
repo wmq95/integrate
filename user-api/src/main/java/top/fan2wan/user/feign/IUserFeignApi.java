@@ -20,6 +20,14 @@ public interface IUserFeignApi {
      *
      * @return boolean
      */
-    @RequestMapping(value = "/user/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/user/test", method = RequestMethod.GET)
     Result<Boolean> test();
+
+    /**
+     * test for save
+     *
+     * @return true
+     */
+    @RequestMapping(value = "/user/saveTest", method = RequestMethod.POST)
+    Result<Boolean> saveTest();
 }

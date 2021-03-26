@@ -13,6 +13,13 @@
 
     <dependencies>
 
+        <!--user api-->
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>user-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
         <!--order api-->
         <dependency>
             <groupId>top.fan2wan</groupId>
@@ -21,17 +28,17 @@
         </dependency>
 
         <!--distribute-->
-        <!--<dependency>
+        <dependency>
             <groupId>top.fan2wan</groupId>
             <artifactId>distributeDB</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
-
-        <dependency>
-            <groupId>top.fan2wan</groupId>
-            <artifactId>mysql</artifactId>
-            <version>${project.version}</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>top.fan2wan</groupId>-->
+            <!--<artifactId>mysql</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
         <!--web core-->
         <dependency>

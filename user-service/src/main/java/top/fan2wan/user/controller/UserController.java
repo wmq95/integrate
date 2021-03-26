@@ -48,22 +48,9 @@ public class UserController implements IUserFeignApi {
         return Result.success(true);
     }
 
-    @ApiIgnore
-    @RequestMapping("/user/save")
-    @GlobalTransactional
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean save() {
-        User user = new User();
-        user.setPassword("123213213");
-        user.setId(IdGenerator.getId());
-        user.setName("distribute");
-        user.setUserName("distribute");
-        userService.save(user);
-        /**
-         * TODO
-         * 没有undo 日志 不知道是不是因为没有跨服务调用
-         * 加入另一个模块试一下
-         */
-        return true;
+    @Override
+    public Result<Boolean> saveTest() {
+
+        return Result.success(userService.saveTest());
     }
 }

@@ -1,8 +1,9 @@
 package top.fan2wan.order;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @Author: fanT
@@ -10,7 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description: application for order
  */
 @SpringBootApplication
-@MapperScan("top.fan2wan.order.mapper*")
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = {"top.fan2wan.*.feign"})
 public class OrderApplication {
 
     public static void main(String[] args) {

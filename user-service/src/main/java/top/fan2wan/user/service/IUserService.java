@@ -1,7 +1,7 @@
 package top.fan2wan.user.service;
 
-import top.fan2wan.user.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.fan2wan.user.entity.User;
 
 /**
  * <p>
@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    Boolean saveTest();
 }

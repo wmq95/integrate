@@ -1,5 +1,6 @@
 package top.fan2wan.order.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 import top.fan2wan.mysql.mybatis.AbstractMybatisConfig;
 
@@ -9,6 +10,7 @@ import top.fan2wan.mysql.mybatis.AbstractMybatisConfig;
  * @Description: config for mybatis
  */
 @Configuration
+@MapperScan("top.fan2wan.order.mapper*")
 public class MybatisPlusConfig extends AbstractMybatisConfig {
 
 }
