@@ -14,4 +14,6 @@ import top.fan2wan.order.entity.UserOrder;
 public interface IUserOrderService extends IService<UserOrder> {
 
     Boolean saveTest();
+
+    Boolean sendMqMsg();
 }

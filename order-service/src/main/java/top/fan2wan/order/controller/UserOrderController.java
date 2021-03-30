@@ -26,4 +26,9 @@ public class UserOrderController implements IUserOrderFeign{
     public Result<Boolean> saveTest() {
         return Result.success(userOrderService.saveTest());
     }
+
+    @Override
+    public Result<Boolean> sendMqMsg() {
+        return Result.success(userOrderService.sendMqMsg());
+    }
 }

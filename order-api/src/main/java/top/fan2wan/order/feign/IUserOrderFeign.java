@@ -15,4 +15,7 @@ public interface IUserOrderFeign {
 
     @RequestMapping(value = "/order/saveTest", method = RequestMethod.POST, consumes = "application/json")
     Result<Boolean> saveTest();
+
+    @RequestMapping(value = "/order/sendMqMsg", method = RequestMethod.GET)
+    Result<Boolean> sendMqMsg();
 }

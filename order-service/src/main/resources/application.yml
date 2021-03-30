@@ -48,3 +48,20 @@ hystrix:
           thread:
             timeoutInMilliseconds: 5000 # 设置hystrix的超时时间(ms)  这么配置其实就是禁用了ribbon的重试机制
           strategy: THREAD
+
+
+rocketmq:
+  producer:
+    groupName: ${spring.application.name}
+    namesrvAddr:  127.0.0.1:9876
+    maxMessageSize: 4096  # 消息最大长度 默认 1024 * 4 (4M)
+    sendMsgTimeOut: 3000  # 发送消息超时时间
+    retryTimesWhenSendFailed: 2 # 发送消息失败重试次数，默认2
+
+  consumer:
+    groupName: ${spring.application.name}
+    namesrvAddr:  127.0.0.1:9876
+    topics: TestTopic~TestTag;TestTopic~HelloTag;HelloTopic~HelloTag;MyTopic~*
+    consumeThreadMin: 5
+    consumeThreadMax: 32
+    consumeMessageBatchMaxSize: 1

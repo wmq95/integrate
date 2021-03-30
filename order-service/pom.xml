@@ -19,7 +19,7 @@
             <artifactId>user-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <!--order api-->
         <dependency>
             <groupId>top.fan2wan</groupId>
@@ -28,17 +28,34 @@
         </dependency>
 
         <!--distribute-->
+        <!--<dependency>-->
+        <!--<groupId>top.fan2wan</groupId>-->
+        <!--<artifactId>distributeDB</artifactId>-->
+        <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>distributeDB</artifactId>
+            <artifactId>mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>top.fan2wan</groupId>-->
-            <!--<artifactId>mysql</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
+        <!--rocketmq-->
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>rocketmq</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-autoconfigure</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!--web core-->
         <dependency>

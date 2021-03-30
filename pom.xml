@@ -43,6 +43,7 @@
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <docker.registry>192.168.99.100:5000</docker.registry>
         <spring-cloud-seata.version>2.2.3.RELEASE</spring-cloud-seata.version>
+        <rocketmq.version>4.7.0</rocketmq.version>
     </properties>
 
     <dependencyManagement>
@@ -143,6 +144,12 @@
                 <version>${spring-cloud-seata.version}</version>
             </dependency>
 
+            <!-- rocketmq -->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
