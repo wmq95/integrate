@@ -15,5 +15,5 @@ public interface IUserOrderService extends IService<UserOrder> {
 
     Boolean saveTest();
 
-    Boolean sendMqMsg();
+    Boolean saveWithRollback();
 }

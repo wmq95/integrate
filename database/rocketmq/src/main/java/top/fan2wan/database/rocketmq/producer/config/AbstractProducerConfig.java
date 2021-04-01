@@ -48,11 +48,11 @@ public abstract class AbstractProducerConfig {
         this.retryTimesWhenSendFailed = retryTimesWhenSendFailed;
     }
 
-    private String groupName;
-    private String namesrvAddr;
-    private Integer maxMessageSize;
-    private Integer sendMsgTimeOut;
-    private Integer retryTimesWhenSendFailed;
+    protected String groupName;
+    protected String namesrvAddr;
+    protected Integer maxMessageSize;
+    protected Integer sendMsgTimeOut;
+    protected Integer retryTimesWhenSendFailed;
 
 
     @Bean
