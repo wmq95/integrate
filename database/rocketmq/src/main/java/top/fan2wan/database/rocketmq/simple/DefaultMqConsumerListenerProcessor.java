@@ -1,4 +1,4 @@
-package top.fan2wan.database.rocketmq.consumer.config;
+package top.fan2wan.database.rocketmq.simple;
 
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -16,7 +16,7 @@ import java.util.Objects;
  * @Date: 2021/3/30 9:18
  * @Description:
  */
-class DefaultMqConsumerListenerProcessor implements MessageListenerConcurrently {
+public class DefaultMqConsumerListenerProcessor implements MessageListenerConcurrently {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMqConsumerListenerProcessor.class);
     private static final String CHARSET_NAME = "utf-8";

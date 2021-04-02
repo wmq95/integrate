@@ -1,7 +1,7 @@
 package top.fan2wan.order.config;
 
 import org.springframework.context.annotation.Configuration;
-import top.fan2wan.database.rocketmq.consumer.config.AbstractConsumerConfig;
+import top.fan2wan.database.rocketmq.simple.AbstractConsumerConfig;
 
 /**
  * @Author: fanT

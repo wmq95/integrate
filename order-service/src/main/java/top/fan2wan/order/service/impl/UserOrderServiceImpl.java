@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.fan2wan.common.util.IdGenerator;
+import top.fan2wan.database.rocketmq.support.ITransactionMsgHandler;
+import top.fan2wan.database.rocketmq.support.TransactionArgExt;
 import top.fan2wan.order.entity.UserOrder;
 import top.fan2wan.order.manager.UserManager;
 import top.fan2wan.order.mapper.UserOrderMapper;
@@ -26,7 +28,8 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder> implements IUserOrderService {
+public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder>
+        implements IUserOrderService, ITransactionMsgHandler {
 
     private final UserManager userManager;
 
@@ -70,5 +73,27 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
 
         int a = 1 / 0;
         return a == 1;
+    }
+
+    /**
+     * 是否支持当前的事务消息
+     *
+     * @param arg 这个arg 对应发送事务消息的入参
+     * @return true 支持
+     */
+    @Override
+    public boolean support(TransactionArgExt arg) {
+        return true;
+    }
+
+    /**
+     * 操作本地事务
+     *
+     * @param arg 参数
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void doLocationTransaction(TransactionArgExt arg) {
+        log.info("doLocationTransaction -- do something success....");
     }
 }

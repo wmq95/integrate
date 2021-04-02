@@ -1,4 +1,4 @@
-package top.fan2wan.database.rocketmq.consumer.config;
+package top.fan2wan.database.rocketmq.simple;
 
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.MQPushConsumer;
