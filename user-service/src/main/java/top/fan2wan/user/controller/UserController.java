@@ -1,15 +1,9 @@
 package top.fan2wan.user.controller;
 
-import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 import top.fan2wan.api.dto.Result;
-import top.fan2wan.common.util.IdGenerator;
-import top.fan2wan.user.entity.User;
 import top.fan2wan.user.feign.IUserFeignApi;
 import top.fan2wan.user.service.IUserService;
 import top.fan2wan.web.support.idempotent.Idempotent;

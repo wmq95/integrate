@@ -22,16 +22,16 @@ public abstract class AbstractConsumerConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractConsumerConfig.class);
 
-    private String groupName;
-    private String namesrvAddr;
-    private String topics;
+    protected String groupName;
+    protected String namesrvAddr;
+    protected String topics;
     // 消费者线程数据量
-    private Integer consumeThreadMin;
-    private Integer consumeThreadMax;
-    private Integer consumeMessageBatchMaxSize;
+    protected Integer consumeThreadMin;
+    protected Integer consumeThreadMax;
+    protected Integer consumeMessageBatchMaxSize;
 
     @Autowired
-    private MessageListenerConcurrently consumeMsgListenerProcessor;
+    protected MessageListenerConcurrently consumeMsgListenerProcessor;
 
     /**
      * mq 消费者配置

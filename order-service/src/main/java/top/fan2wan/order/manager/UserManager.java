@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.fan2wan.user.feign.IUserFeignApi;
+import top.fan2wan.user.feign.IUserIntegralFeignApi;
 
 /**
  * @Author: fanT
@@ -16,10 +17,16 @@ import top.fan2wan.user.feign.IUserFeignApi;
 public class UserManager {
 
     private final IUserFeignApi userFeignApi;
+    private final IUserIntegralFeignApi userIntegralFeignApi;
 
     public Boolean saveTest() {
 
         userFeignApi.saveTest();
+        return true;
+    }
+
+    public Boolean addIntegral(Long userId) {
+        userIntegralFeignApi.addIntegral(userId);
         return true;
     }
 }

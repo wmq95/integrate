@@ -47,10 +47,11 @@ public class MqTest {
             e.printStackTrace();
         }
 
-        try {
+        System.out.println("shutdown");
+        /*try {
             Thread.sleep(1000 * 60 * 5);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

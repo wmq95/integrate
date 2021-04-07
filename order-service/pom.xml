@@ -28,17 +28,17 @@
         </dependency>
 
         <!--distribute-->
-        <!--<dependency>-->
-        <!--<groupId>top.fan2wan</groupId>-->
-        <!--<artifactId>distributeDB</artifactId>-->
-        <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
-
         <dependency>
+        <groupId>top.fan2wan</groupId>
+        <artifactId>distributeDB</artifactId>
+        <version>${project.version}</version>
+        </dependency>
+
+     <!--   <dependency>
             <groupId>top.fan2wan</groupId>
             <artifactId>mysql</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
 
         <!--rocketmq-->
         <dependency>

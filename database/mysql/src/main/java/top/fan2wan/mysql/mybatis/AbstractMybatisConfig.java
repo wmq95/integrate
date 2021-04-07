@@ -21,11 +21,13 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -39,7 +41,10 @@ import java.util.List;
  * @Date: 2021/3/25 15:17
  * @Description: config for mybatisPlus
  */
-public abstract class AbstractMybatisConfig {
+@EnableTransactionManagement
+@EnableConfigurationProperties(MybatisPlusProperties.class)
+public abstract class
+AbstractMybatisConfig {
 
     @Autowired
     private ApplicationContext applicationContext;

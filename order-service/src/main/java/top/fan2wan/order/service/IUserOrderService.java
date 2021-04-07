@@ -16,4 +16,6 @@ public interface IUserOrderService extends IService<UserOrder> {
     Boolean saveTest();
 
     Boolean saveWithRollback();
+
+    Boolean placeOrder(Long userId);
 }

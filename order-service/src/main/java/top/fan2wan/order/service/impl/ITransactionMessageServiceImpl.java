@@ -37,6 +37,6 @@ public class ITransactionMessageServiceImpl implements ITransactionMessageServic
     @Override
     public boolean checkStateWithTransactionId(String transactionId) {
         log.info("checkStateWithTransactionId --transactionId was :{}", transactionId);
-        return false;
+        return true;
     }
 }
