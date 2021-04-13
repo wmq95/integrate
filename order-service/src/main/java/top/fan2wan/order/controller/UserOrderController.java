@@ -2,6 +2,7 @@ package top.fan2wan.order.controller;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.api.dto.Result;
 import top.fan2wan.order.feign.IUserOrderFeign;
@@ -29,7 +30,7 @@ public class UserOrderController implements IUserOrderFeign {
     }
 
     @Override
-    public Result<Boolean> placeOrder(Long userId) {
+    public Result<Boolean> placeOrder(@RequestParam("userId") Long userId) {
         return Result.success(userOrderService.placeOrder(userId));
     }
 

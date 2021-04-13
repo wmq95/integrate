@@ -2,8 +2,7 @@ package top.fan2wan.user.controller;
 
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.api.dto.Result;
 import top.fan2wan.user.feign.IUserIntegralFeignApi;
@@ -11,7 +10,7 @@ import top.fan2wan.user.service.IUserIntegralService;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author fanT
@@ -19,7 +18,7 @@ import top.fan2wan.user.service.IUserIntegralService;
  */
 @RestController
 @AllArgsConstructor
-public class UserIntegralController implements IUserIntegralFeignApi{
+public class UserIntegralController implements IUserIntegralFeignApi {
 
     private final IUserIntegralService userIntegralService;
 
@@ -30,7 +29,7 @@ public class UserIntegralController implements IUserIntegralFeignApi{
      * @return boolean
      */
     @Override
-    public Result<Boolean> addIntegral(Long userId) {
+    public Result<Boolean> addIntegral(@RequestParam("userId") Long userId) {
 
         return Result.success(userIntegralService.addIntegral(userId));
     }

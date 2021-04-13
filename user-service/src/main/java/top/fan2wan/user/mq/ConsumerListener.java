@@ -1,10 +1,12 @@
 package top.fan2wan.user.mq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -20,6 +22,7 @@ import java.util.Objects;
  * @Description: listener for consumer
  */
 @Service
+@Slf4j
 public class ConsumerListener implements MessageListenerConcurrently {
 
     @Autowired
@@ -49,10 +52,9 @@ public class ConsumerListener implements MessageListenerConcurrently {
 
         try {
             String body = new String(msg.getBody(), "utf-8");
-
+            log.info("body was :{}", body);
             UserIntegral dto = mapper.readValue(body, UserIntegral.class);
-
-//            System.out.println(userIntegralService.list().size());
+            log.info("dto was :{}", dto);
             userIntegralService.addIntegral(dto.getUserId());
         } catch (Exception e) {
             e.printStackTrace();

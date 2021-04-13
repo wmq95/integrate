@@ -1,5 +1,6 @@
 package top.fan2wan.web.config;
 
+import cn.hutool.core.util.StrUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import java.util.Enumeration;
  */
 public abstract class AbstractFeignIntercept implements RequestInterceptor {
 
+    private final static String METHOD_GET = "GET";
     private static Logger logger = LoggerFactory.getLogger(AbstractFeignIntercept.class);
 
     @Override
@@ -36,6 +38,10 @@ public abstract class AbstractFeignIntercept implements RequestInterceptor {
 //                logger.info("header was :{}, value was :{}", name, values);
                 requestTemplate.header(name, values);
             }
+        }
+        if (StrUtil.equals(METHOD_GET, request.getMethod().toUpperCase())) {
+            // get 请求 参数应该放在url 中 不要放在body 里面
+            return;
         }
         Enumeration<String> bodyNames = request.getParameterNames();
         StringBuffer body = new StringBuffer();

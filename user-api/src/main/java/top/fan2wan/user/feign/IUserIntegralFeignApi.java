@@ -20,6 +20,6 @@ public interface IUserIntegralFeignApi {
      * @param userId userId
      * @return boolean
      */
-    @RequestMapping(value = "/user/addIntegral", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/addIntegral")
     Result<Boolean> addIntegral(@RequestParam("userId") Long userId);
 }

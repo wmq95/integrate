@@ -8,6 +8,6 @@ import top.fan2wan.database.rocketmq.simple.AbstractConsumerConfig;
  * @Date: 2021/4/7 14:00
  * @Description: config for consumer
  */
-//@Configuration
+@Configuration
 public class ConsumerConfig extends AbstractConsumerConfig {
 }
