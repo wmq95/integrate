@@ -20,7 +20,6 @@
         <module>user-api</module>
         <module>user-service</module>
         <module>database</module>
-        <module>database</module>
         <module>order-api</module>
         <module>order-service</module>
     </modules>
