@@ -17,14 +17,14 @@
         <!--rocketmq-->
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>rocketmq</artifactId>
+            <artifactId>database.rocketmq</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <!--distribute-->
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>distributeDB</artifactId>
+            <artifactId>database.distributeDB</artifactId>
             <version>${project.version}</version>
         </dependency>
 

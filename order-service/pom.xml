@@ -35,9 +35,9 @@
 
         <!--distribute-->
         <dependency>
-        <groupId>top.fan2wan</groupId>
-        <artifactId>distributeDB</artifactId>
-        <version>${project.version}</version>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>database.distributeDB</artifactId>
+            <version>${project.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>error_prone_annotations</artifactId>
@@ -54,30 +54,18 @@
             </exclusions>
         </dependency>
 
-     <!--   <dependency>
-            <groupId>top.fan2wan</groupId>
-            <artifactId>mysql</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
+        <!--   <dependency>
+               <groupId>top.fan2wan</groupId>
+               <artifactId>mysql</artifactId>
+               <version>${project.version}</version>
+           </dependency>-->
 
         <!--rocketmq-->
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>rocketmq</artifactId>
+            <artifactId>database.rocketmq</artifactId>
             <version>${project.version}</version>
             <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-autoconfigure</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>fastjson</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
                 <exclusion>
                     <artifactId>commons-beanutils</artifactId>
                     <groupId>commons-beanutils</groupId>
@@ -85,6 +73,10 @@
                 <exclusion>
                     <artifactId>commons-collections</artifactId>
                     <groupId>commons-collections</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -102,6 +94,10 @@
                 <exclusion>
                     <artifactId>wildfly-common</artifactId>
                     <groupId>org.wildfly.common</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-collections</artifactId>
+                    <groupId>commons-collections</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
