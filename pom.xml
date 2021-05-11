@@ -22,6 +22,7 @@
         <module>database</module>
         <module>order-api</module>
         <module>order-service</module>
+        <module>other-util</module>
     </modules>
 
     <properties>
@@ -43,6 +44,8 @@
         <docker.registry>192.168.99.100:5000</docker.registry>
         <spring-cloud-seata.version>2.2.3.RELEASE</spring-cloud-seata.version>
         <rocketmq.version>4.7.0</rocketmq.version>
+        <java.docker.version>3.0.6</java.docker.version>
+        <docker.freemarker.version>2.3.28</docker.freemarker.version>
     </properties>
 
     <dependencyManagement>
@@ -148,6 +151,19 @@
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq.version}</version>
+            </dependency>
+
+            <!-- 操作docker容器 -->
+            <dependency>
+                <groupId>com.github.docker-java</groupId>
+                <artifactId>docker-java</artifactId>
+                <version>${java.docker.version}</version>
+            </dependency>
+            <!-- 处理docker模板 -->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${docker.freemarker.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

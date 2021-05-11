@@ -1,23 +1,19 @@
 package top.fan2wan.order.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.LocalTransactionState;
-import org.apache.rocketmq.client.producer.TransactionSendResult;
-import org.apache.rocketmq.common.message.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.fan2wan.api.util.ExceptionUtil;
 import top.fan2wan.common.util.IdGenerator;
+import top.fan2wan.database.redis.util.RedisUtil;
 import top.fan2wan.database.rocketmq.support.ITransactionMsgHandler;
 import top.fan2wan.database.rocketmq.support.TransactionArgExt;
-import top.fan2wan.order.bo.UserIntegralBO;
-import top.fan2wan.order.constants.StringConstant;
+import top.fan2wan.order.constant.OrderCode;
+import top.fan2wan.order.constant.StringConstant;
 import top.fan2wan.order.entity.UserOrder;
-import top.fan2wan.order.manager.ProducerManager;
 import top.fan2wan.order.manager.UserManager;
 import top.fan2wan.order.mapper.UserOrderMapper;
 import top.fan2wan.order.service.IUserOrderService;
@@ -39,8 +35,8 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
         implements IUserOrderService, ITransactionMsgHandler {
 
     private final UserManager userManager;
-//    private final ProducerManager producerManager;
-//
+    //    private final ProducerManager producerManager;
+    private final RedisUtil redisUtil;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -122,6 +118,12 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void doLocationTransaction(TransactionArgExt arg) {
+        // 半事务消息发送成功 触发本地事件  注意之前的逻辑中redis 只是简单的get 了number
+        // 这儿去真正的check -1 处理
+        int number = redisUtil.increase(StringConstant.USER_ORDER_NUMBER_KEY, -1);
+        if (number < 1) {
+            ExceptionUtil.throwException(OrderCode.SOLD_OUT);
+        }
         // 入库 生成订单记录
         UserOrder userOrder = new UserOrder();
         userOrder.setUserId(Long.valueOf(arg.getData()));

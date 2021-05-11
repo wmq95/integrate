@@ -37,6 +37,14 @@ public class ITransactionMessageServiceImpl implements ITransactionMessageServic
     @Override
     public boolean checkStateWithTransactionId(String transactionId) {
         log.info("checkStateWithTransactionId --transactionId was :{}", transactionId);
+        // 这儿做check  如果回滚 可以手动调用 rollbackForMsg
+        return true;
+    }
+
+    @Override
+    public boolean rollbackForMsg(Message msg, Exception e) {
+        log.info("rollbackForMsg -- transactionId was :{}", msg.getTransactionId());
+        log.error("rollbackForMsg -- error was :{}", e.getMessage());
         return true;
     }
 }

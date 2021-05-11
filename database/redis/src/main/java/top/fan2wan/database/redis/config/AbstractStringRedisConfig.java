@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.annotation.*;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import top.fan2wan.database.redis.util.RedisUtil;
 
 import java.time.Duration;
 
@@ -52,7 +53,14 @@ public abstract class AbstractStringRedisConfig extends CachingConfigurerSupport
     }
 
     @Bean
+    @ConditionalOnMissingBean(name = "redisUtil")
+    public RedisUtil redisUtil(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisUtil(redisTemplate);
+    }
+
+    @Bean
     @ConditionalOnMissingBean(value = KeyGenerator.class)
+    @ConditionalOnClass(value = {Cacheable.class, CachePut.class, CacheEvict.class})
     public KeyGenerator cacheKeyGenerator() {
         return (target, method, params) -> {
             StringBuilder sb = new StringBuilder();

@@ -69,6 +69,9 @@ public class TransactionListenerImpl implements TransactionListener {
 
             //  无异常 返回commit
             state = LocalTransactionState.COMMIT_MESSAGE;
+        } catch (Exception e) {
+            // 3异常处理本地操作
+            transactionMessageService.rollbackForMsg(msg, e);
         } finally {
             // 确保返回本地事务状态
             if (LocalTransactionState.ROLLBACK_MESSAGE.equals(state)) {

@@ -81,6 +81,13 @@
             </exclusions>
         </dependency>
 
+        <!--redis -->
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>database.redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--web core-->
         <dependency>
             <groupId>top.fan2wan</groupId>

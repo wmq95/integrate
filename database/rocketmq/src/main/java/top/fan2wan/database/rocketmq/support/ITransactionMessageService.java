@@ -25,4 +25,13 @@ public interface ITransactionMessageService {
      * @return localState  true -> commit
      */
     boolean checkStateWithTransactionId(String transactionId);
+
+    /**
+     * 异常回滚处理
+     *
+     * @param msg msg
+     * @param e   exception
+     * @return boolean
+     */
+    boolean rollbackForMsg(Message msg, Exception e);
 }
