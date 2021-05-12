@@ -46,6 +46,8 @@
         <rocketmq.version>4.7.0</rocketmq.version>
         <java.docker.version>3.0.6</java.docker.version>
         <docker.freemarker.version>2.3.28</docker.freemarker.version>
+        <jersy.version>2.27</jersy.version>
+        <http5.version>3.2.2</http5.version>
     </properties>
 
     <dependencyManagement>
@@ -165,6 +167,18 @@
                 <artifactId>freemarker</artifactId>
                 <version>${docker.freemarker.version}</version>
             </dependency>
+            <!--需要jersey  不然异常  InjectionManagerFactory not found-->
+            <dependency>
+                <groupId>org.glassfish.jersey.inject</groupId>
+                <artifactId>jersey-hk2</artifactId>
+                <version>${jersy.version}</version>
+            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.github.docker-java</groupId>-->
+                <!--<artifactId>docker-java-transport-httpclient5</artifactId>-->
+                <!--<version>${http5.version}</version>-->
+            <!--</dependency>-->
+
         </dependencies>
     </dependencyManagement>
 
