@@ -1,5 +1,7 @@
 package top.fan2wan.database.rocketmq.support;
 
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * @Author: fanT
  * @Date: 2021/4/1 14:19
@@ -20,5 +22,6 @@ public interface ITransactionMsgHandler {
      *
      * @param arg 参数
      */
+    @Transactional(rollbackFor = Exception.class)
     void doLocationTransaction(TransactionArgExt arg);
 }

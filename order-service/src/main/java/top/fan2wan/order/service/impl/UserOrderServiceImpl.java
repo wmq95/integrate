@@ -116,7 +116,6 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
      * @param arg 参数
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void doLocationTransaction(TransactionArgExt arg) {
         // 半事务消息发送成功 触发本地事件  注意之前的逻辑中redis 只是简单的get 了number
         // 这儿去真正的check -1 处理

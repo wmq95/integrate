@@ -6,7 +6,6 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import top.fan2wan.database.rocketmq.support.ITransactionMessageService;
 import top.fan2wan.database.rocketmq.support.ITransactionMsgHandler;
 import top.fan2wan.database.rocketmq.support.TransactionArgExt;
@@ -36,7 +35,6 @@ public class TransactionListenerImpl implements TransactionListener {
     /**
      * 确保消息和本地事务属于同一个事务
      */
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
 
@@ -56,7 +54,6 @@ public class TransactionListenerImpl implements TransactionListener {
         }
 
         try {
-
             //  1记录message 状态 transactionId 等 用于之后rocketmq 发起查询 把arg 也记录下去
             transactionMessageService.saveTransactionMsg(msg, ext);
             //  这一步 可以放在发送半事务消息的时候入库记录 无需放在这儿？但是有个问题 因为transactionId是发送成功之后 mq返回给我们的
@@ -70,8 +67,9 @@ public class TransactionListenerImpl implements TransactionListener {
             //  无异常 返回commit
             state = LocalTransactionState.COMMIT_MESSAGE;
         } catch (Exception e) {
-            // 3异常处理本地操作
+            // 3异常处理本地操作 但是注意 catch 之后要抛出异常 不然不会回滚
             transactionMessageService.rollbackForMsg(msg, e);
+            throw new RuntimeException(e);
         } finally {
             // 确保返回本地事务状态
             if (LocalTransactionState.ROLLBACK_MESSAGE.equals(state)) {
