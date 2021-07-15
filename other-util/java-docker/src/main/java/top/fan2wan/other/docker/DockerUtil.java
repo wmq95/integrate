@@ -3,6 +3,7 @@ package top.fan2wan.other.docker;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.InspectContainerResponse;
+import com.github.dockerjava.api.command.TopContainerResponse;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -39,10 +40,6 @@ public class DockerUtil {
         }
     }
 
-    public List<SearchItem> searchImage(String imageName) {
-
-        return dockerClient.searchImagesCmd(imageName).exec();
-    }
 
     public CreateContainerResponse createContainer(String imageName) {
         PortBinding portBinding = PortBinding.parse("8000" + ":" + "8000");
@@ -50,12 +47,13 @@ public class DockerUtil {
                 .withName("test")
                 .withPortBindings(portBinding)
                 .withExposedPorts(ExposedPort.parse("8000" + "/tcp"))
+                .withMemory(512 * 1024 * 1024L)
+                .withMemorySwap(1024 * 1024 * 1024L)
                 .exec();
     }
 
-    public boolean startContainer(String containerId) {
-        dockerClient.startContainerCmd(containerId).exec();
-        return true;
+    private DockerClient getDockerClient() {
+        return dockerClient;
     }
 
     /**
@@ -63,10 +61,10 @@ public class DockerUtil {
      *
      * @param containerId 容器id 和name 都可
      * @return boolean
-     * 删除容器会检查 容器是否存在 是否运行 最薄容器正确删除
+     * 删除容器会检查 容器是否存在 是否运行 确保容器正确删除
      * 当然如果容器不存在的情况 默认返回true
      */
-    public boolean saveDelContainer(String containerId) {
+    public boolean safeDelContainer(String containerId) {
         InspectContainerResponse inspectContainerResponse = inspectContainer(containerId);
         if (Objects.isNull(inspectContainerResponse)) {
             return true;
@@ -80,9 +78,18 @@ public class DockerUtil {
         return true;
     }
 
+    public boolean restartContainer(String containerId) {
 
-    private boolean stopContainer(String containerId) {
-        dockerClient.stopContainerCmd(containerId).exec();
+        InspectContainerResponse inspectContainerResponse = inspectContainer(containerId);
+        if (Objects.isNull(inspectContainerResponse)) {
+            return true;
+        }
+
+        if (inspectContainerResponse.getState().getRunning()) {
+            dockerClient.restartContainerCmd(containerId);
+        } else {
+            dockerClient.startContainerCmd(containerId);
+        }
         return true;
     }
 
@@ -102,6 +109,16 @@ public class DockerUtil {
             }
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean startContainer(String containerId) {
+        dockerClient.startContainerCmd(containerId).exec();
+        return true;
+    }
+
+    private boolean stopContainer(String containerId) {
+        dockerClient.stopContainerCmd(containerId).exec();
+        return true;
     }
 
     public List<Image> listImages() {
@@ -150,19 +167,10 @@ public class DockerUtil {
     }
 
     public static void main(String[] args) {
-        DockerUtil dockerUtil = DockerUtil.builder().withIp("10.0.0.241")
+        DockerUtil dockerUtil = DockerUtil.builder().withIp("10.15.9.77")
                 .withPort(2375)
                 .withSSL(false)
                 .build();
-//        System.out.println(dockerUtil.info());
-
-//        dockerUtil.listContainer().forEach(System.out::println);
-
-//        dockerUtil.listImages().forEach(System.out::println);
-//        System.out.println(dockerUtil.inspectContainer("jenkins"));
-//        dockerUtil.searchImage("rocketmq").forEach(System.out::println);
-//        dockerUtil.createContainer("nginx:1.17.3");
-        System.out.println(dockerUtil.saveDelContainer("test"));
-//        System.out.println(dockerUtil.startContainer("test"));
+        System.out.println(dockerUtil.info());
     }
 }
