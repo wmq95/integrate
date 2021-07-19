@@ -56,3 +56,12 @@ ribbon:
   OkToRetryOnAllOperations: false
   MaxAutoRetriesNextServer: 0
 
+#prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'prometheus'
+  metrics:
+    tags:
+      application: ${spring.application.name}

@@ -14,6 +14,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>top.fan2wan</groupId>
+            <artifactId>prometheus</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--sleuth-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -113,14 +118,14 @@
                     <!--绑定docker build、docker tag 到mvn package阶段-->
                     <execution>
                         <id>build-image</id>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>tag-image</id>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>tag</goal>
                         </goals>

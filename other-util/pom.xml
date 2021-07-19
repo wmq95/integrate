@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>java-docker</module>
+        <module>prometheus</module>
     </modules>
 
 
