@@ -3,19 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>integrate</artifactId>
+        <artifactId>other-util</artifactId>
         <groupId>top.fan2wan</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>other-util</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>java-docker</module>
-        <module>prometheus</module>
-        <module>sharding-jdbc</module>
-    </modules>
+    <artifactId>sharding-jdbc</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>
