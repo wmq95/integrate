@@ -1,0 +1,23 @@
+spring:
+  shardingsphere:
+    datasource:
+      names:  master,slave
+
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl:  jdbc:mysql://mysql:7777/test?characterEncoding=utf8
+        username: fant
+        password: 123456
+
+      slave:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl:  jdbc:mysql://mysql:7778/test?characterEncoding=utf8
+        username: fant
+        password: 123456
+    masterslave:
+      name: ms
+      master-data-source-name: master
+      slave-data-source-names: slave
+    props:
+      sql:
+        show: true

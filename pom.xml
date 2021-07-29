@@ -23,6 +23,7 @@
         <module>order-api</module>
         <module>order-service</module>
         <module>other-util</module>
+        <module>sharding</module>
     </modules>
 
     <properties>
