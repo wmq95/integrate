@@ -14,6 +14,6 @@ public class GeneratorCode {
         pc.setModuleName("sharding");
         pc.setParent("top.fan2wan");
         generatorUtil.generator("jdbc:mysql://mysql:7777/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai",
-                "fant","123456","sharding",pc,new String[]{"user"});
+                "fant","123456","sharding",pc,new String[]{"t_user_order"});
     }
 }

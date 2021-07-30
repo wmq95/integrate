@@ -5,7 +5,7 @@ spring:
   application:
     name: sharding
   profiles:
-    active: sharding
+    active: sharding2
 #  datasource:
 #    hikari:
 #      jdbc-url: jdbc:mysql://mysql:7777/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai

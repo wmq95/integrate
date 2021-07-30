@@ -21,6 +21,12 @@
 
         <dependency>
             <groupId>top.fan2wan</groupId>
+            <artifactId>common-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>top.fan2wan</groupId>
             <artifactId>mysql</artifactId>
             <version>${project.version}</version>
         </dependency>

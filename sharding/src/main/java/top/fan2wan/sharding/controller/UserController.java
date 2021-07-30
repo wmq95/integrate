@@ -1,6 +1,7 @@
 package top.fan2wan.sharding.controller;
 
 
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.fan2wan.sharding.entity.User;
@@ -28,7 +29,7 @@ public class UserController {
 
     @RequestMapping("/list")
     public List<User> list() {
-
+        HintManager.getInstance().setMasterRouteOnly();
         return userService.list();
     }
 
