@@ -124,13 +124,17 @@ docker 创建的容器bridge 模式下 （windows 并不能ping通容器的ip，
 
 除了lb，还有就是重试机制，集成ribbon，重试机制需要注意接口的幂等行，ribbon的超时时间和hystrix的熔断时间需要注意，header丢失的情况，线程隔离下 需要额外配置隔离策略达到header的传递
 
-7）链路追踪
+##### 7）链路追踪
+
+使用sleuth 然后集成elk做为项目得日志系统
 
 ##### 8）网关-鉴权、授权
 
 鉴权、授权采用spring的security，采用无状态的jwt实现，实现了oauth2 协议，为了方便 把refreshToken 放在了accessToken中，然后实现了accessToken 过期自动刷新策略
 
-9）分布式事务
+##### 9）分布式事务
+
+使用SeaTa 实现强一致性，使用rocketMq 实现通知行事务(适用于秒杀等并发得场景)
 
 10）分布式任务调度
 

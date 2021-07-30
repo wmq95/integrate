@@ -1,5 +1,6 @@
 package top.fan2wan.order.config;
 
+import com.zaxxer.hikari.HikariConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 import top.fan2wan.mysql.mybatis.AbstractMybatisConfig;
@@ -11,6 +12,6 @@ import top.fan2wan.mysql.mybatis.AbstractMybatisConfig;
  */
 @Configuration
 @MapperScan("top.fan2wan.order.mapper*")
-public class MybatisPlusConfig extends AbstractMybatisConfig {
+public class MybatisPlusConfig extends HikariConfig {
 
 }

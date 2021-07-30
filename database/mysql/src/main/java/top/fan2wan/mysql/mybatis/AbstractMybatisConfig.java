@@ -15,18 +15,14 @@ import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -43,8 +39,7 @@ import java.util.List;
  */
 @EnableTransactionManagement
 @EnableConfigurationProperties(MybatisPlusProperties.class)
-public abstract class
-AbstractMybatisConfig {
+public abstract class AbstractMybatisConfig {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -58,13 +53,6 @@ AbstractMybatisConfig {
     private ObjectProvider<Interceptor[]> interceptorsProvider;
     @Autowired
     private ObjectProvider<DatabaseIdProvider> databaseIdProvider;
-
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.hikari")
-    public DataSource dataSource() {
-        HikariDataSource hikariDataSource = new HikariDataSource();
-        return hikariDataSource;
-    }
 
     /**
      * mybatis-plus SQL执行效率插件
@@ -178,13 +166,4 @@ AbstractMybatisConfig {
         factory.setGlobalConfig(globalConfig);
         return factory;
     }
-
-    @Bean
-    @Primary
-    public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSourceProxy) {
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-        transactionManager.setDataSource(dataSourceProxy);
-        return transactionManager;
-    }
-
 }
