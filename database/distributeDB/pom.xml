@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>top.fan2wan</groupId>
-            <artifactId>mysql</artifactId>
+            <artifactId>database.mysql</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

@@ -1,8 +1,8 @@
 package top.fan2wan.user.config;
 
-import com.zaxxer.hikari.HikariConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
+import top.fan2wan.mysql.mybatis.impl.HikariMybatisConfig;
 
 /**
  * @Author: fanT
@@ -11,5 +11,5 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan("top.fan2wan.user.mapper*")
-public class MybatisPlusConfig extends HikariConfig {
+public class MybatisPlusConfig extends HikariMybatisConfig {
 }

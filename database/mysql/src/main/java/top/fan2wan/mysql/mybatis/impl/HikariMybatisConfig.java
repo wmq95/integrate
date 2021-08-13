@@ -13,7 +13,7 @@ import javax.sql.DataSource;
  * @Date: 2021/7/29 14:45
  * @Description: user HakariDataSource
  */
-public class HikariConfig extends AbstractMybatisConfig {
+public class HikariMybatisConfig extends AbstractMybatisConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.hikari")
