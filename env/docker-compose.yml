@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  seata-server:
+    image: seataio/seata-server:1.4.0
+    container_name: seata
+    ports:
+      - "8091:8091"
+    environment:
+      - SEATA_PORT=8091
+    depends_on:
+      - nacos
+      - mysql
+    networks:
+      - integrate
+    links:
+      - mysql:mysql
+      - nacos:nacos
+#    挂载 seata 配置文件 这儿使用db模式 使用nacos注册中心
+#    volumes:
+#    - /seata:/seata-server/resource/
+
+  nacos:
+    image:  nacos/nacos-server
+    container_name: nacos
+    ports:
+      - "8848:8848"
+    networks:
+      - integrate
+    environment:
+      - "MODE=standalone"
+    depends_on:
+      - mysql
+    links:
+      - mysql:mysql
+#    挂载nacos的配置文件
+#    volumes:
+#      - /f/IdeaWorkSpace/integrate/env/nacos/application.properties:/home/nacos/conf/
+
+  #mysql nacos.sql脚本包含nacos建表语句和 seata 配置数据
+  #seata.sql 包含的seata的建表语句
+  #  以上2个sql 脚本可以放在一个数据库database中执行 可以隔离开 使用不同的数据库 但是记得执行脚本完了修改jdbc.url
+  mysql:
+    image:  mysql:5.7
+    container_name: mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=123456"
+    ports:
+      - "3306:3306"
+    networks:
+      - integrate
+
+networks:
+  integrate:
+    driver: bridge
