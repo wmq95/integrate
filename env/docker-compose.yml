@@ -1,6 +1,14 @@
 version: "3"
 
 services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+    - "6379:6379"
+    networks:
+      - integrate
+
   seata-server:
     image: seataio/seata-server:1.4.0
     container_name: seata
@@ -8,6 +16,7 @@ services:
       - "8091:8091"
     environment:
       - SEATA_PORT=8091
+      - SEATA_IP=192.168.99.100
     depends_on:
       - nacos
       - mysql
@@ -18,7 +27,7 @@ services:
       - nacos:nacos
 #    挂载 seata 配置文件 这儿使用db模式 使用nacos注册中心
 #    volumes:
-#    - /seata:/seata-server/resource/
+#    - /seata:/seata-server/resources/
 
   nacos:
     image:  nacos/nacos-server

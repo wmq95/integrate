@@ -3,7 +3,7 @@ services:
   rmqnamesrv:
     image: foxiswho/rocketmq:server
     container_name: rmqnamesrv
-    restart: always
+#    restart: always
     ports:
       - 9876:9876
 #    volumes:
@@ -17,7 +17,7 @@ services:
   rmqbroker:
     image: foxiswho/rocketmq:broker
     container_name: rmqbroker
-    restart: always
+#    restart: always
     ports:
       - 10909:10909
       - 10911:10911
@@ -40,7 +40,7 @@ services:
   rmqconsole:
     image: styletang/rocketmq-console-ng
     container_name: rmqconsole
-    restart: always
+#    restart: always
     ports:
       - 8084:8080
     environment:
