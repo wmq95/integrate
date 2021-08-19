@@ -1,7 +1,10 @@
 package top.fan2wan.database.redis.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,5 +46,22 @@ public class RedisUtil {
     public Object get(String key) {
 
         return redisTemplate.opsForValue().get(key);
+    }
+
+    /**
+     * @param script     脚本
+     * @param returnType 返回值类型
+     * @param keyList    参数列表
+     * @throws ClassCastException 会抛出类型转换异常
+     */
+    public <T> T execute(DefaultRedisScript script, Class<T> returnType, List<String> keyList) {
+        Object s = redisTemplate.execute(script, keyList);
+
+        return Objects.isNull(s) ? null : (T) s;
+    }
+
+    public <T> T execute(DefaultRedisScript script, RedisSerializer<T> resultSerializer, List<String> keyList) {
+
+        return (T) redisTemplate.execute(script, redisTemplate.getKeySerializer(), resultSerializer, keyList);
     }
 }

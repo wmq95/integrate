@@ -56,7 +56,7 @@
 
 <!--        <dependency>-->
 <!--            <groupId>top.fan2wan</groupId>-->
-<!--            <artifactId>mysql</artifactId>-->
+<!--            <artifactId>database.mysql</artifactId>-->
 <!--            <version>${project.version}</version>-->
 <!--        </dependency>-->
 
@@ -98,16 +98,23 @@
                     <artifactId>fastjson</artifactId>
                     <groupId>com.alibaba</groupId>
                 </exclusion>
-                <exclusion>
-                    <artifactId>wildfly-common</artifactId>
-                    <groupId>org.wildfly.common</groupId>
-                </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>wildfly-common</artifactId>-->
+<!--                    <groupId>org.wildfly.common</groupId>-->
+<!--                </exclusion>-->
                 <exclusion>
                     <artifactId>commons-collections</artifactId>
                     <groupId>commons-collections</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.wildfly.common/wildfly-common -->
+        <dependency>
+            <groupId>org.wildfly.common</groupId>
+            <artifactId>wildfly-common</artifactId>
+            <version>1.5.4.Final</version>
+        </dependency>
+
 
         <!--lombok-->
         <dependency>

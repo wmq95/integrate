@@ -1,9 +1,12 @@
 package top.fan2wan.order.service.impl;
 
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.fan2wan.api.util.ExceptionUtil;
@@ -11,6 +14,7 @@ import top.fan2wan.common.util.IdGenerator;
 import top.fan2wan.database.redis.util.RedisUtil;
 import top.fan2wan.database.rocketmq.support.ITransactionMsgHandler;
 import top.fan2wan.database.rocketmq.support.TransactionArgExt;
+import top.fan2wan.order.bo.UserIntegralBO;
 import top.fan2wan.order.constant.OrderCode;
 import top.fan2wan.order.constant.StringConstant;
 import top.fan2wan.order.entity.UserOrder;
@@ -19,6 +23,8 @@ import top.fan2wan.order.mapper.UserOrderMapper;
 import top.fan2wan.order.service.IUserOrderService;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -37,6 +43,7 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
     private final UserManager userManager;
     //    private final ProducerManager producerManager;
     private final RedisUtil redisUtil;
+    private final Map<String, DefaultRedisScript> redisScripts;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -96,6 +103,21 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
             // 调用user 新增积分
             userManager.addIntegral(userId);
         }
+        return true;
+    }
+
+    @Override
+    public Boolean placeOrderWithRedisScript() {
+        List<String> keyList = Lists.newArrayList();
+        keyList.add("num");
+        Long result = redisUtil.execute(redisScripts.get(StringConstant.REDIS_LUA_KEY), Long.class, keyList);
+        log.info("placeOrderWithRedisScript -- result was :{}", result);
+
+        List<String> pojoKeys = Lists.newArrayList();
+        pojoKeys.add("bo");
+        UserIntegralBO bo = redisUtil.execute(redisScripts.get(StringConstant.REDIS_LUA_GET_POJO_KEY),
+                new FastJsonRedisSerializer<>(UserIntegralBO.class), pojoKeys);
+        log.info("bo was :{}", bo);
         return true;
     }
 

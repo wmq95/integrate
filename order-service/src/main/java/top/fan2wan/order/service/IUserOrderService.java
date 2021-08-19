@@ -18,4 +18,6 @@ public interface IUserOrderService extends IService<UserOrder> {
     Boolean saveWithRollback();
 
     Boolean placeOrder(Long userId);
+
+    Boolean placeOrderWithRedisScript();
 }
