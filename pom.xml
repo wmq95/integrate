@@ -14,6 +14,7 @@
         <module>common-util</module>
         <module>database</module>
         <module>other-util</module>
+        <module>sharding</module>
     </modules>
 
     <properties>

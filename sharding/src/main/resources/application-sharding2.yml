@@ -1,0 +1,24 @@
+spring:
+  shardingsphere:
+    datasource:
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 123456
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://mysql:7777/test?characterEncoding=utf8
+        username: root
+      names: master
+    props:
+      sql:
+        show: true
+    sharding:
+      tables:
+        t_user_order:
+          actual-data-nodes: master.t_user_order$->{0..1}
+#          key-generator: #主键生成策略 意味着插入得时候可以给实体生成主键 所以插入时实体无序手动set主键
+#            column: id
+#            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: t_user_order$->{id % 2}
+              sharding-column: id

@@ -1,0 +1,14 @@
+server:
+  port: 7999
+
+spring:
+  application:
+    name: sharding
+  profiles:
+    active: sharding2
+#  datasource:
+#    hikari:
+#      jdbc-url: jdbc:mysql://mysql:7777/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      username: fant
+#      password: 123456
