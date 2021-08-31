@@ -11,17 +11,8 @@
     <modules>
         <module>web-core</module>
         <module>web-api</module>
-        <module>test-api</module>
-        <module>test-service</module>
         <module>common-util</module>
-        <module>gateway-service</module>
-        <module>security-service</module>
-        <module>oauth-api</module>
-        <module>user-api</module>
-        <module>user-service</module>
         <module>database</module>
-        <module>order-api</module>
-        <module>order-service</module>
         <module>other-util</module>
     </modules>
 

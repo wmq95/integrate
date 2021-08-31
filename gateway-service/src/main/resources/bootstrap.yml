@@ -1,9 +1,0 @@
-spring:
-  cloud:
-    nacos:
-      config:
-        file-extension: yaml  #设置读取文件格式为yaml
-        server-addr: myNacos:8848
-        namespace: ed434ec5-4bc1-4510-b3a3-fede43b443f0 #预先在nacos 控制台上创建了个命名空间
-      discovery:
-        server-addr: myNacos:8848
