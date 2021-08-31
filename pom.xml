@@ -15,6 +15,7 @@
         <module>database</module>
         <module>other-util</module>
         <module>sharding</module>
+        <module>es-test</module>
     </modules>
 
     <properties>
